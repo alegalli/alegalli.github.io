@@ -81,8 +81,9 @@ textarea::input-placeholder {
 ================================================== */
 
 h3,
+
 h6{
-	margin:0 0 20px 0;
+	margin: 0 20px 0;
 	color:#000;
 	font-weight:400;
 	font-family: 'Montserrat', sans-serif;
@@ -140,7 +141,7 @@ header {
 	background:transparent;
 	position: static;
 	width: 100%;
-	height: 100px;
+	height: 50px;
 	z-index: 1001;
 	padding-top:40px;
 	padding-bottom: 40px;
@@ -151,7 +152,7 @@ header #logo a {
 	font-family: 'Montserrat', sans-serif;
 	font-size: 22px;
 	font-weight: 500;
-	line-height: 100px;
+	line-height: 50px;
 	letter-spacing: 2px;
 }
 
@@ -176,7 +177,7 @@ nav#menu #menu-nav li {
 	position: relative;	
 	list-style: none;
 	float: left;
-	padding: 0 30px;
+	padding: 0 10px;
 	
 }
 
@@ -185,7 +186,7 @@ nav#menu #menu-nav li a {
 	font-family: 'Montserrat', sans-serif;
 	font-size: 16px;
 	font-weight: 500;
-	line-height: 100px;
+	line-height: 50px;
 	display: block;
 	letter-spacing: 0.2px;
 }
@@ -304,3 +305,27 @@ footer.footer-widgets a {
 footer.footer-widgets a:hover {
 	color: #000;
 }
+
+/* ==================================================
+   Ale Edits
+================================================== */
+.fixed-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+	height: 50;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+}
+nav ul {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+}
+nav ul li a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
