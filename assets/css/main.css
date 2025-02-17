@@ -110,8 +110,6 @@ h6{
 	
 }
 
-
-
 h7{
 	font-size:14px;
 	font-weight:400;
@@ -133,39 +131,11 @@ h7{
 }
 
 
-/* ==================================================
-   Header
-================================================== */
-
-header {
-	background:transparent;
-	position: static;
-	width: 100%;
-	height: 50px;
-	z-index: 1001;
-	padding-top:40px;
-	padding-bottom: 40px;
-}
-
-header #logo a {
-	color: #000;
-	font-family: 'Montserrat', sans-serif;
-	font-size: 22px;
-	font-weight: 500;
-	line-height: 50px;
-	letter-spacing: 2px;
-}
-
-header #logo a:hover {
-	color: #777;	
-}
-
-
-
 /* Navigation */
 
 nav#menu {
 	float: right;
+	width:100%;
 }
 
 nav#menu #menu-nav {
@@ -181,23 +151,6 @@ nav#menu #menu-nav li {
 	
 }
 
-nav#menu #menu-nav li a {
-	color: #000;
-	font-family: 'Montserrat', sans-serif;
-	font-size: 16px;
-	font-weight: 500;
-	line-height: 50px;
-	display: block;
-	letter-spacing: 0.2px;
-}
-
-nav#menu #menu-nav li:last-child {
-	padding-right: 0;
-}
-
-nav#menu #menu-nav li a:hover {
-	color: #777;
-}
 
 /* ==================================================
    Intro Box
@@ -206,7 +159,7 @@ nav#menu #menu-nav li a:hover {
 #intro-box {
 	position: relative;
 	background:transparent;
-	padding: 60px 0 130px;
+	padding: 100px 0 50px;
 	text-align:center;
 	
 	
@@ -229,7 +182,9 @@ nav#menu #menu-nav li a:hover {
 
 #intro-box .center {
 	text-align: center;
+	margin-top: 25px;
 }
+
 
 /* ==================================================
    Team People / Single Team
@@ -274,6 +229,7 @@ nav#menu #menu-nav li a:hover {
 	opacity:.55
 }
 
+
 /* ==================================================
    Footer
 ================================================== */
@@ -284,6 +240,7 @@ footer {
 	padding: 40px 0 40px;
 	margin-bottom: 0px;
 }
+
 
 /* ==================================================
    Footer Widgets
@@ -306,26 +263,130 @@ footer.footer-widgets a:hover {
 	color: #000;
 }
 
+
 /* ==================================================
-   Ale Edits
+   Header
+================================================== */
+
+header {
+	background:transparent;
+	position: static;
+	width: 100%;
+	height: 50px;
+	z-index: 1001;
+}
+
+header #logo a {
+	color: #333;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 28px;
+	font-weight: 500;
+	line-height: 50px;
+	letter-spacing: 2px;
+}
+
+header #logo a:hover {
+	font-weight: 500;
+	color: #000;
+	text-shadow: 1px 1px 2px #444;
+}
+
+
+/* ==================================================
+   Ale Edits Fixed Header
 ================================================== */
 .fixed-header {
     position: fixed;
     top: 0;
     width: 100%;
-	height: 50;
-    background: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	height: 50px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
     padding: 10px 0;
 }
-nav ul {
-    display: flex;
-    justify-content: space-around;
-    list-style: none;
-}
-nav ul li a {
-    text-decoration: none;
-    color: black;
-    font-weight: bold;
+
+nav#menu #menu-nav li a {
+	color: #888;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 20px;
+	font-weight: 500;
+	line-height: 50px;
+	display: block;
+	letter-spacing: 0.2px;
 }
 
+nav#menu #menu-nav li a {
+	margin-right: 20px;
+	margin-left: 20px;
+}
+
+nav#menu #menu-nav li a:hover {
+    color: black;
+    font-weight: 500;
+	text-shadow: 1px 1px 2px #444;
+} 
+
+nav ul {
+    display: flex;
+    justify-content: end;
+    list-style: none;
+}
+
+nav#menu #menu-nav li:last-child {
+	padding-right: 0;
+}
+
+header div.span10 {
+	width: 82%;
+}
+
+#intro-box .aleblue {
+	/* color: #3E7B27;
+	color: #F93827;
+	color: #118B50;
+	color: #5CB338;
+	color: #08C2FF;
+	color: #008DDA;
+	color: #00A9FF; */
+	color: #0D92F4;
+}
+
+
+/* ==================================================
+   Ale Edits CV
+================================================== */
+
+.cv {
+    text-align: center;
+    margin-top: 100px;
+}
+
+.cv a {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #007BFF;
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+/* ==================================================
+   Ale Edits Dark Mode
+================================================== */
+
+:root {
+    --bg-color: white;
+    --text-color: black;
+}
+
+[data-theme="dark"] {
+    --bg-color: black;
+    --text-color: white;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
