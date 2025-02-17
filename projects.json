@@ -1,0 +1,42 @@
+[
+    {
+        "id": 1,
+        "name": "BFD La Fotta - EUCF 2024 (4th place)",
+        "year": 2024,
+        "topic": "",
+        "summary": "",
+        "description": "",
+        "cover_photo": "",
+        "downloads": []
+    },
+    {
+        "id": 2,
+        "name": "Italy u17 Mixed - EYUC17 2024 (Gold Medal)",
+        "year": 2024,
+        "topic": "",
+        "summary": "",
+        "description": "",
+        "cover_photo": "",
+        "downloads": []
+    },
+    {
+        "id": 3,
+        "name": "toolsView",
+        "year": 2024,
+        "topic": "Web Development",
+        "summary": "",
+        "description": "",
+        "cover_photo": "",
+        "downloads": []
+    },
+    {
+        "id": 4,
+        "name": "conflictSahel",
+        "year": 2019,
+        "topic": "",
+        "summary": "",
+        "description": "",
+        "cover_photo": "",
+        "downloads": []
+    }
+]
