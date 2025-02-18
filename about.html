@@ -38,16 +38,13 @@
   <!-- JS -->
   <!-- JS Modernizr -->
   <script src="assets/js/modernizr.js"></script>
-  <!-- JS Dark Theme -->
-  <script src="assets/js/theme.js"></script>
-  
 </head>
 
 
 <body>
 
 <!-- Header -->
-<header class="fixed-header">
+<!-- <header class="fixed-header">
   <div class="span2">
       <div id="logo">
           <a href="index.html" title="NAME">Ale Galli</a>
@@ -55,17 +52,17 @@
   </div>
   <div class="span10">
       <nav id="menu">
-          <ul id="menu-nav">
+          <ul id="menu-nav"> -->
               <!-- Show only if you're not in the index.html page
               <li><a href="index.html" class="menu-nav-elem">Projects</a></li> -->
-              <li><a href="blog.html" class="menu-nav-elem">Blog</a></li>
+              <!-- <li><a href="blog.html" class="menu-nav-elem">Blog</a></li>
               <li><a href="cv.html" class="menu-nav-elem">CV</a></li>
               <li><a href="about.html" class="menu-nav-elem">About</a></li>
               <li><a href="#" id="theme-toggle" class="menu-nav-elem">🌙</a></li>
           </ul>
       </nav>
   </div>
-</header>
+</header> -->
 <!-- End Header -->
 
 
@@ -177,4 +174,19 @@
 <!-- End Footer -->
 
 </body>
+<script>
+  fetch("assets/components/header.html")
+      .then(response => response.text())
+      .then(data => {
+          document.body.insertAdjacentHTML("afterbegin", data);
+      })
+      .catch(error => console.error("Error loading header:", error));
+</script>
+
+<!-- Dynamic Navbar -->
+<script src="assets/js/navbar.js"></script>
+
+<!-- JS Dark Theme -->
+<script src="assets/js/theme.js"></script>
+
 </html>

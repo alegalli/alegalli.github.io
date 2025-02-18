@@ -35,25 +35,13 @@
 <link rel="apple-touch-icon" sizes="72x72" href="#">
 <link rel="apple-touch-icon" sizes="144x144" href="#">
 
-<!-- JS -->
-<!-- JS Modernizr -->
-<script src="assets/js/modernizr.js"></script>
-<!-- JS Dark Theme -->
-<script src="assets/js/theme.js"></script>
-<!-- Embedded Pages with JS -->
-<script>
-    fetch("assets/components/header.html")
-        .then(response => response.text())
-        .then(data => document.body.insertAdjacentHTML("afterbegin", data));
-</script>
-
 </head>
 
 
 <body>
 
 <!-- Header -->
-<header class="fixed-header">
+<!-- <header class="fixed-header">
     <div class="span2">
         <div id="logo">
             <a href="index.html" title="NAME">Ale Galli</a>
@@ -61,17 +49,17 @@
     </div>
     <div class="span10">
         <nav id="menu">
-            <ul id="menu-nav">
+            <ul id="menu-nav"> -->
                 <!-- Show only if you're not in the index.html page
                 <li><a href="index.html" class="menu-nav-elem">Projects</a></li> -->
-                <li><a href="blog.html" class="menu-nav-elem">Blog</a></li>
+                <!-- <li><a href="blog.html" class="menu-nav-elem">Blog</a></li>
                 <li><a href="cv.html" class="menu-nav-elem">CV</a></li>
-                <li><a href="about.html" class="menu-nav-elem">About</a></li>
-                <li><a href="#" id="theme-toggle" class="menu-nav-elem">🌙</a></li>
+                <li><a href="about.html" class="menu-nav-elem">About</a></li>-->
+                <!-- <li><a href="#" id="theme-toggle" class="menu-nav-elem">🌙</a></li>
             </ul>
         </nav>
     </div>
-</header>
+</header> -->
 <!-- End Header -->
 
 <!-- Start Intro Box -->
@@ -88,23 +76,15 @@
 </section>
 <!-- End Intro Box -->
 
+<section id="projects-list">
+    <!-- Projects will be injected here -->
+</section>
+
 <!-- Start Section Portfolio Projects -->
 <section id="portfolio" class="container">
     <div class="row">
         <div id="portfolio-projects">
             <ul id="projects">
-                <li class="item-project span12">
-                    <a href="project.html" title="Work1"><img src="assets/img/EUCF-2024-Bologna-La-Fotta2.jpg" alt="">Bologna La Fotta - EUCF 2024</a>
-                </li>
-                <li class="item-project span6">
-                    <a href="project.html" title="Work2"><img src="assets/img/EYUC17-2024-Italy.jpg" alt="">Italy u17 Mixed - EYUC17 2024 (Gold Medal)</a>
-                </li>
-                <li class="item-project span6">
-                    <a href="project.html" title="Work3"><img src="assets/img/home4.jpg" alt="">toolsView</a>
-                </li>
-                <li class="item-project span12">
-                    <a href="project.html" title="Work4"><img src="assets/img/foodSahel-2019.webp" alt="">conflictSahel</a>
-                </li>
             </ul>
         </div>
     </div>
@@ -129,6 +109,25 @@
     </div>
 </footer>
 <!-- End Footer -->
-
 </body>
+
+<script>
+    fetch("assets/components/header.html")
+        .then(response => response.text())
+        .then(data => {
+            document.body.insertAdjacentHTML("afterbegin", data);
+        })
+        .catch(error => console.error("Error loading header:", error));
+</script>
+
+<!-- Dynamic Navbar -->
+<script src="assets/js/navbar.js"></script>
+<!-- JS PJs -->
+<script src="assets/js/loadProjects.js"></script>
+<!-- JS Dark Theme -->
+<script src="assets/js/theme.js"></script>
+<!-- JS -->
+<!-- JS Modernizr -->
+<script src="assets/js/modernizr.js"></script>
+
 </html>

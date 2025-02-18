@@ -1,8 +1,8 @@
 [
     {
         "id": 1,
-        "name": "Articolo 1",
-        "text": "Persone",
+        "name": "How is a Project Structured?",
+        "text": "title, year, topic. Summary/short description (only one?), cover photo, useful pictures (graphs, data, maps, execution of the code), libraries/tools/frameworks utilized (tech stack), useful links (link to code), downloads (?)",
         "downloads": []
     },
     {
