@@ -8,6 +8,7 @@
 
 <meta name="description" content=""/>
 <title>alegalli</title>
+<link rel="icon" href="/assets/img/AG-circle.png">
 
 <!-- Mobile Specifics -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,7 +35,6 @@
 <link rel="apple-touch-icon" sizes="114x114" href="#">
 <link rel="apple-touch-icon" sizes="72x72" href="#">
 <link rel="apple-touch-icon" sizes="144x144" href="#">
-
 </head>
 
 
@@ -76,10 +76,6 @@
 </section>
 <!-- End Intro Box -->
 
-<section id="projects-list">
-    <!-- Projects will be injected here -->
-</section>
-
 <!-- Start Section Portfolio Projects -->
 <section id="portfolio" class="container">
     <div class="row">
@@ -92,7 +88,7 @@
 <!-- End Section Portfolio Projects -->
 
 <!-- Start Footer -->
-<footer class="footer-widgets">
+<!-- <footer class="footer-widgets">
 	<div class="container">
     	<div class="row">
          	<div class="span4 widget">
@@ -107,10 +103,11 @@
             </div>
         </div>
     </div>
-</footer>
+</footer> -->
 <!-- End Footer -->
 </body>
 
+<!-- JS -->
 <script>
     fetch("assets/components/header.html")
         .then(response => response.text())
@@ -118,15 +115,18 @@
             document.body.insertAdjacentHTML("afterbegin", data);
         })
         .catch(error => console.error("Error loading header:", error));
+    fetch('assets/components/footer.html')
+        .then(response => response.text())
+        .then(html => {
+            document.body.insertAdjacentHTML("beforeend", html);
+    });
 </script>
-
 <!-- Dynamic Navbar -->
 <script src="assets/js/navbar.js"></script>
 <!-- JS PJs -->
 <script src="assets/js/loadProjects.js"></script>
 <!-- JS Dark Theme -->
 <script src="assets/js/theme.js"></script>
-<!-- JS -->
 <!-- JS Modernizr -->
 <script src="assets/js/modernizr.js"></script>
 

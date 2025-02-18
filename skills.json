@@ -1,0 +1,62 @@
+[
+    {
+        "id": 1,
+        "name": "JS",
+        "urlName": "JavaScript",
+        "color": "F7DF1E",
+        "logo": "JavaScript",
+        "logoColor": "000",
+        "tool": "Language",
+        "macro": ["JS"]
+    },
+    {
+        "id": 2,
+        "name": "ReactJS",
+        "urlName": "ReactJS",
+        "color": "61DAFB",
+        "logo": "react",
+        "logoColor": "white",
+        "tool": "Framework",
+        "macro": ["JS", "Web Development"]
+    },
+    {
+        "id": 3,
+        "name": "Python",
+        "urlName": "Python",
+        "color": "3670A0",
+        "logo": "python",
+        "logoColor": "ffdd54",
+        "tool": "Language",
+        "macro": ["Python"]
+    },
+    {
+        "id": 4,
+        "name": "scikit-learn",
+        "urlName": "scikit--learn",
+        "color": "F7931E",
+        "logo": "scikit-learn",
+        "logoColor": "white",
+        "tool": "Library",
+        "macro": ["Python", "Data Analysis"]
+    },
+    {
+        "id": 5,
+        "name": "Seaborn",
+        "urlName": "Seaborn",
+        "color": "3776AB",
+        "logo": "python",
+        "logoColor": "white",
+        "tool": "Library",
+        "macro": ["Python", "Visualization"]
+    },
+    {
+        "id": 6,
+        "name": "FastAPI",
+        "urlName": "FastAPI",
+        "color": "009485",
+        "logo": "fastapi",
+        "logoColor": "white",
+        "tool": "Library",
+        "macro": ["Python", "API"]
+    }
+]

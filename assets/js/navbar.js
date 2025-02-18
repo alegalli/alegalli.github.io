@@ -18,9 +18,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
 
                 // Add Theme Toggle
-                let elem = document.createElement("li");
-                elem.innerHTML = `<a href="#" id="theme-toggle" class="menu-nav-elem">🌙</a>`;
-                navbar.appendChild(elem);
+                let elem2 = document.createElement("li");
+                elem2.innerHTML = `<a href="#" id="theme-toggle" class="menu-nav-elem">🌙</a>`;
+                navbar.appendChild(elem2);
             })
             .catch(error => console.error("Error loading navbar:", error));
     }

@@ -4,45 +4,60 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch("projects.json")
         .then(response => response.json())
         .then(projects => {
-            // const container = document.getElementById("projects-list");
-            // if (container) {
-            //     projects.forEach(project => {
-            //         const projectElement = document.createElement("div");
-            //         projectElement.classList.add("project-item");
-            //         projectElement.innerHTML = `
-            //             <h3><a href="project.html?pj=${project.id}">${project.name}</a></h3>
-            //             <p>${project.year}</p>
-            //         `;
-            //         container.appendChild(projectElement);
-            //     });
-            // }
-
             const container1 = document.getElementById("projects");
-            if (container1) {
-                var i=0;
-                projects.forEach(project => {
-                    
-                    const projectElement = document.createElement("li");
-                    const span = i%3==0 ? "span12" : "span6";
-                    projectElement.classList.add("item-project");
-                    projectElement.classList.add(span);
-                    
-                    const cover_photo = project.cover_photo || "assets/img/home1.jpg";
+            if (!container1) return; 
 
-                    //TODO: sistema dimensione immagini
-                    projectElement.innerHTML = `
-                        <a href="project.html?pj=${project.id}" class="project-link"> <div class="project-image" style="background-image: url('${cover_photo}')"> <h2 class="project-title"> ${project.name} </h2> </div> <div class="project-summary"> <p>${project.summary}</p> </div> </a>
-                    `;
-                    // <p>${project.year}</p>
-                    container1.appendChild(projectElement);
+            var i=0;
+            let publicPjs = projects.filter(project => project.public);
+            publicPjs.sort(inverted_by('id'));
+            
+            // Log
+            console.log(projects);
+            console.log(publicPjs);
+
+            fetch("skills.json")
+                .then(response => response.json())
+                .then(skills => {
+                    let skillsMap = {};
+                    skills.forEach(skill => {
+                        skillsMap[skill.name] = skill;
+                    })
+
+                    publicPjs.forEach((project, i) => {
+                        const projectElement = document.createElement("li");
+                        const span = i % 3 == 0 ? "span12" : "span6";
+                        projectElement.classList.add("item-project", span);
+                        const cover_photo = project.cover_photo || "assets/img/home1.jpg";
+                        
+                        // custom badges https://medium.com/@samunyi90/how-to-make-custom-language-badges-for-your-profile-using-shields-io-ec69ea95dfc0
+                        let badgeHTML = project.tools.map(tool => {
+                            let skill = skillsMap[tool];
+                            if (skill) {
+                                return `
+                                    <img src="https://img.shields.io/badge/-${skill.urlName}-${skill.color}?logo=${skill.logo}&logoColor=${skill.logoColor}&logoWidth=30" 
+                                        alt="${tool}" style="max-height: 20px; width: auto;">
+                                `;
+                            }
+                        });
 
 
-                    i++;
-                })
-            }
-
-
-
+                        projectElement.innerHTML = `
+                            <a href="project.html?pj=${project.id}" class="project-link"> 
+                                <div class="project-image" style="background-image: url('${cover_photo}')"> 
+                                    <h2 class="project-title"> ${project.name} </h2> 
+                                </div> 
+                                <div class="project-summary"> 
+                                    <p>${project.summary}</p> 
+                                    <div class="badges" align="start" dir="auto" style="height: 20px">
+                                        ${badgeHTML.join('')}
+                                    </div>
+                                </div> 
+                            </a>
+                        `;
+                        container1.appendChild(projectElement);
+                    })
+            })
+        
 
             const urlParams = new URLSearchParams(window.location.search);
             const projectId = urlParams.get("pj");
@@ -63,3 +78,15 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch(error => console.error("Error loading projects:", error));
 });
+
+// Generic Comparator for Sorting JSON https://stackoverflow.com/questions/69734479/sort-json-string-by-attribute-in-javascript
+function inverted_by(property) {
+    return function(a, b) {
+        aProp = typeof(a[property])==="string" ? a[property].toLowerCase() : a[property];
+        bProp = typeof(b[property])==="string" ? b[property].toLowerCase() : b[property];
+
+        if (aProp < bProp) return 1;
+        else if (aProp > bProp) return -1;
+        else return 0;
+    }
+}

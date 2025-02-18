@@ -8,6 +8,7 @@
 
     <meta name="description" content=""/>
     <title>alegalli</title>
+    <link rel="icon" href="/assets/img/AG-circle.png">
 
     <!-- Mobile Specifics -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,11 +35,7 @@
     <link rel="apple-touch-icon" sizes="114x114" href="#">
     <link rel="apple-touch-icon" sizes="72x72" href="#">
     <link rel="apple-touch-icon" sizes="144x144" href="#">
-
-    <!-- JS Modernizr -->
-    <script src="assets/js/modernizr.js"></script>
 </head>
-
 
 <body>
 
@@ -51,7 +48,7 @@
     </div>
     <div class="span10">
         <nav id="menu">
-            <ul id="menu-nav">
+            <ul id="menu-nav"> -->
                 <!-- Show only if you're not in the index.html page
                 <li><a href="index.html" class="menu-nav-elem">Projects</a></li> -->
                 <!--<li><a href="blog.html" class="menu-nav-elem">Blog</a></li>
@@ -91,9 +88,6 @@
 </section>
 <!-- End Intro Box -->
 
-<!-- </section> -->
-
-
 <!-- Suggested Projects -->
 <section id="suggested-project" class="container">
     <div class="">
@@ -120,9 +114,8 @@
 </section>
 <!-- End Suggested Projects -->
 
-
 <!-- Start Footer -->
-<footer class="footer-widgets">
+<!-- <footer class="footer-widgets">
 	<div class="container">
     	<div class="row">
          	<div class="span4 widget">
@@ -136,11 +129,11 @@
             </div>
         </div>
     </div>
-</footer>
+</footer> -->
 <!-- End Footer -->
-
-
 </body>
+
+<!-- JS -->
 <script>
     fetch("assets/components/header.html")
         .then(response => response.text())
@@ -148,15 +141,18 @@
             document.body.insertAdjacentHTML("afterbegin", data);
         })
         .catch(error => console.error("Error loading header:", error));
+    fetch('assets/components/footer.html')
+        .then(response => response.text())
+        .then(html => {
+            document.body.insertAdjacentHTML("beforeend", html);
+    });
 </script>
-
 <!-- Dynamic Navbar -->
 <script src="assets/js/navbar.js"></script>
-
-<!-- JS -->
 <script src="assets/js/loadProjects.js"></script>
 <script src="assets/js/loadSuggestedProjects.js"></script>
 <!-- JS Dark Theme -->
 <script src="assets/js/theme.js"></script>
-
+<!-- JS Modernizr -->
+<script src="assets/js/modernizr.js"></script>
 </html>
