@@ -1,6 +1,6 @@
 {
     "navbar": [
-        { "name": "Home", "url": "index.html", "visible": false },
+        { "name": "Home", "url": "/", "visible": true },
         { "name": "Project", "url": "project.html", "visible": false },
         { "name": "CV", "url": "cv.html", "visible": true },
         { "name": "Blog", "url": "blog.html", "visible": false },

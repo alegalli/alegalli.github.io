@@ -39,28 +39,7 @@
 
 
 <body>
-
-<!-- Header -->
-<!-- <header class="fixed-header">
-    <div class="span2">
-        <div id="logo">
-            <a href="index.html" title="NAME">Ale Galli</a>
-        </div>
-    </div>
-    <div class="span10">
-        <nav id="menu">
-            <ul id="menu-nav"> -->
-                <!-- Show only if you're not in the index.html page
-                <li><a href="index.html" class="menu-nav-elem">Projects</a></li> -->
-                <!-- <li><a href="blog.html" class="menu-nav-elem">Blog</a></li>
-                <li><a href="cv.html" class="menu-nav-elem">CV</a></li>
-                <li><a href="about.html" class="menu-nav-elem">About</a></li>-->
-                <!-- <li><a href="#" id="theme-toggle" class="menu-nav-elem">🌙</a></li>
-            </ul>
-        </nav>
-    </div>
-</header> -->
-<!-- End Header -->
+<div id="header-container"></div>
 
 <!-- Start Intro Box -->
 <section id="intro-box" class="margin-0">
@@ -85,34 +64,23 @@
         </div>
     </div>
 </section>
-<!-- End Section Portfolio Projects -->
-
-<!-- Start Footer -->
-<!-- <footer class="footer-widgets">
-	<div class="container">
-    	<div class="row">
-         	<div class="span4 widget">
-            	<div class="about-widget">
-                    <h7>aaagalli@gmail.com</h7>
-                </div>
-            </div>
-             <div class="span8 widget">
-            	<div class="twitter-widget">
-                		<h7><a href="https://www.linkedin.com/aaagalli" target="_blank" >linkedin</a> &nbsp; • &nbsp; <a href="https://github.com/alegalli" target="_blank">github</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer> -->
-<!-- End Footer -->
 </body>
-
 <!-- JS -->
 <script>
     fetch("assets/components/header.html")
         .then(response => response.text())
         .then(data => {
-            document.body.insertAdjacentHTML("afterbegin", data);
+            document.getElementById('header-container').innerHTML = data;
+            // document.body.insertAdjacentHTML("afterbegin", data);
+            // Dynamic Navbar
+            const script = document.createElement('script');
+            script.src = 'assets/js/navbar.js';
+            script.defer = true;
+            document.body.appendChild(script);
+            const script1 = document.createElement('script');
+            script1.src = 'assets/js/sidebar.js';
+            script1.defer = true;
+            document.body.appendChild(script1);
         })
         .catch(error => console.error("Error loading header:", error));
     fetch('assets/components/footer.html')
@@ -122,7 +90,10 @@
     });
 </script>
 <!-- Dynamic Navbar -->
-<script src="assets/js/navbar.js"></script>
+<!-- <script src="assets/js/navbar.js" defer></script>
+<script src="assets/js/sidebar.js" defer></script>  -->
+
+<!-- <script src="accessible-navbar/script.js"></script> -->
 <!-- JS PJs -->
 <script src="assets/js/loadProjects.js"></script>
 <!-- JS Dark Theme -->
