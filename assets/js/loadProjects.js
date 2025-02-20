@@ -4,77 +4,81 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch("projects.json")
         .then(response => response.json())
         .then(projects => {
-            const container1 = document.getElementById("projects");
-            if (!container1) return; 
+            //index.html
+            const container = document.getElementById("projects");
 
-            var i=0;
-            let publicPjs = projects.filter(project => project.public);
-            publicPjs.sort(inverted_by('id'));
-            
-            // Log
-            console.log(projects);
-            console.log(publicPjs);
-
-            fetch("skills.json")
-                .then(response => response.json())
-                .then(skills => {
-                    let skillsMap = {};
-                    skills.forEach(skill => {
-                        skillsMap[skill.name] = skill;
-                    })
-
-                    publicPjs.forEach((project, i) => {
-                        const projectElement = document.createElement("li");
-                        const span = i % 3 == 0 ? "span12" : "span6";
-                        projectElement.classList.add("item-project", span);
-                        const cover_photo = project.cover_photo || "assets/img/home1.jpg";
-                        
-                        // custom badges https://medium.com/@samunyi90/how-to-make-custom-language-badges-for-your-profile-using-shields-io-ec69ea95dfc0
-                        let badgeHTML = project.tools.map(tool => {
-                            let skill = skillsMap[tool];
-                            if (skill) {
-                                return `
-                                    <img src="https://img.shields.io/badge/-${skill.urlName}-${skill.color}?logo=${skill.logo}&logoColor=${skill.logoColor}&logoWidth=30" 
-                                        alt="${tool}" style="max-height: 20px; width: auto;">
-                                `;
-                            }
-                        });
-
-
-                        projectElement.innerHTML = `
-                            <a href="project.html?pj=${project.id}" class="project-link"> 
-                                <div class="project-image" style="background-image: url('${cover_photo}')"> 
-                                    <h2 class="project-title"> ${project.name} </h2> 
-                                </div> 
-                                <div class="project-summary"> 
-                                    <p>${project.summary}</p> 
-                                    <div class="badges" align="start" dir="auto" style="height: 20px">
-                                        ${badgeHTML.join('')}
-                                    </div>
-                                </div> 
-                            </a>
-                        `;
-                        container1.appendChild(projectElement);
-                    })
-            })
-        
-
+            //project.html
             const urlParams = new URLSearchParams(window.location.search);
             const projectId = urlParams.get("pj");
-        
-            if (projectId) {
-                const project = projects.find(p => p.id == projectId);
-                if (project) {
-                    document.getElementById("project-title").textContent = project.name;
-                    document.getElementById("project-year").textContent = `Year: ${project.year}` || "";
-                    document.getElementById("project-topic").textContent = `Topic: ${project.topic}` || "";
-                    document.getElementById("project-tools").textContent = `Tools & Libraries: ${project.tools}` || "";
-                    document.getElementById("project-summary").textContent = project.summary || "No summary available.";
-                    document.getElementById("project-description").textContent = project.description || "No description available.";
-                } else {
-                    document.getElementById("project-content").innerHTML = "<p>Project not found.</p>";
+
+            if (container) { 
+                //index.html
+                var i=0;
+                let publicPjs = projects.filter(project => project.public);
+                publicPjs.sort(inverted_by('id'));
+                
+                console.log(projects);
+                console.log(publicPjs);
+
+                fetch("skills.json")
+                    .then(response => response.json())
+                    .then(skills => {
+                        let skillsMap = {};
+                        skills.forEach(skill => {
+                            skillsMap[skill.name] = skill;
+                        })
+
+                        publicPjs.forEach((project, i) => {
+                            const projectElement = document.createElement("li");
+                            const span = i % 3 == 0 ? "span12" : "span6";
+                            projectElement.classList.add("item-project", span);
+                            const cover_photo = project.cover_photo || "assets/img/home1.jpg";
+                            
+                            // custom badges https://medium.com/@samunyi90/how-to-make-custom-language-badges-for-your-profile-using-shields-io-ec69ea95dfc0
+                            let badgeHTML = project.tools.map(tool => {
+                                let skill = skillsMap[tool];
+                                if (skill) {
+                                    return `
+                                        <img src="https://img.shields.io/badge/-${skill.urlName}-${skill.color}?logo=${skill.logo}&logoColor=${skill.logoColor}&logoWidth=30" 
+                                            alt="${tool}" style="max-height: 20px; width: auto;">
+                                    `;
+                                }
+                            });
+
+                            projectElement.innerHTML = `
+                                <a href="project.html?pj=${project.id}" class="project-link"> 
+                                    <div class="project-image" style="background-image: url('${cover_photo}')"> 
+                                        <h2 class="project-title"> ${project.name} </h2> 
+                                    </div> 
+                                    <div class="project-summary"> 
+                                        <p>${project.summary}</p> 
+                                        <div class="badges" align="start" dir="auto" style="height: 20px">
+                                            ${badgeHTML.join('')}
+                                        </div>
+                                    </div> 
+                                </a>
+                            `;
+                            container.appendChild(projectElement);
+                        })
+                })
+            } else if (projectId) {
+                //project.html            
+                if (projectId) {
+                    const project = projects.find(p => p.id == projectId);
+                    if (project) {
+                        document.getElementById("project-title").textContent = project.name;
+                        document.getElementById("project-year").textContent = `Year: ${project.year}` || "";
+                        document.getElementById("project-topic").textContent = `Topic: ${project.topic}` || "";
+                        document.getElementById("project-tools").textContent = `Tools & Libraries: ${project.tools}` || "";
+                        document.getElementById("project-summary").textContent = project.summary || "No summary available.";
+                        document.getElementById("project-description").innerHTML = project.description || "No description available.";
+                    } else {
+                        document.getElementById("project-content").innerHTML = "<p>Project not found.</p>";
+                    }
                 }
-            }
+            } else {
+                return;
+            }   
         })
         .catch(error => console.error("Error loading projects:", error));
 });

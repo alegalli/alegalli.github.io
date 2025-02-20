@@ -36,6 +36,7 @@
         <link rel="apple-touch-icon" sizes="144x144" href="#">
     </head>
 <body>
+<div id="header-container"></div>
 <section class="blog">
     <h2>Latest Posts</h2>
     <div class="post">
@@ -50,7 +51,8 @@
     fetch("assets/components/header.html")
         .then(response => response.text())
         .then(data => {
-            document.body.insertAdjacentHTML("afterbegin", data);
+            document.getElementById('header-container').innerHTML = data;
+            // document.body.insertAdjacentHTML("afterbegin", data);
         })
         .catch(error => console.error("Error loading header:", error));
     fetch('assets/components/footer.html')
@@ -60,9 +62,10 @@
     });
 </script>
 <!-- Dynamic Navbar -->
-<script src="assets/js/navbar.js"></script>
+<script src="assets/js/navbar.js" defer></script>
+<script src="assets/js/sidebar.js" defer></script> 
 <!-- JS Dark Theme -->
-<script src="assets/js/theme.js"></script>
+<script src="assets/js/theme.js" defer></script>
 <!-- JS Modernizr -->
 <script src="assets/js/modernizr.js"></script>
 </html>

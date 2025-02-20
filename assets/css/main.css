@@ -63,7 +63,7 @@ ul {
 }
 
 ul {
-	list-style: circle inside;
+	list-style: none;
 }
 
 li {
@@ -468,7 +468,7 @@ html{
 	display: none;
 }
   
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 768px) {
 	#open-sidebar-button, #close-sidebar-button{
 	  	display: block;
 	}
@@ -478,7 +478,7 @@ html{
 	  	top: 0;
 	  	right: 0;
 	  	height: 1500px; /* deve arrivare a coprire tutto lo schermo verticale */
-	  	width: min(15em, 100%);
+	  	width: min(20em, 100%);
 	  	z-index: 10;
 	  	border-left: 1px solid #ccc;
 	  	transition: right 300ms ease-in-out;
@@ -500,12 +500,26 @@ html{
 
 	#sidebar a{
 	  	width: 100%;
+		display: flex;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 20px;
+		font-weight: 500;
+		line-height: 60px;
+		letter-spacing: 0.2px;
+		transition: background-color 150ms ease;
 	  	padding-left: 1em;
 		padding-right: 4em;
-		padding-top: 1em;
-		padding-bottom: 1em;
+		/* padding-top: 1em;
+		padding-bottom: 1em; */
 	}
-
+	#sidebar a:hover {
+		color: black;
+		font-weight: 500;
+		text-shadow: 1px 1px 2px #444;
+		/* è più bello senza background e radius */
+		background-color: rgba(255, 255, 255, 0.3);
+		border-radius: 5px;
+	} 
 	/* #sidebar #logo{
 		margin-right: unset;
 	} */
@@ -517,9 +531,9 @@ html{
 
 /* Responsive Styling */
 /* Hide desktop menu */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
 
-} 
+}  */
 
 /* Navigation */
 #menu-nav {
@@ -560,7 +574,7 @@ nav #menu-nav li a:hover {
     font-weight: 500;
 	text-shadow: 1px 1px 2px #444;
 	/* è più bello senza background e radius */
-	background-color: rgba(231, 231, 231, 0.3);
+	background-color: rgba(239, 239, 237, 0.3);
 	border-radius: 10px;
 } 
 
@@ -649,7 +663,7 @@ body.dark-theme .fixed-header  {
 	color:#5B5B5B;
 }
 
-.dark-theme nav#menu #menu-nav li a:hover {
+.dark-theme nav #menu-nav li a:hover {
     color: white;
     font-weight: 500;
 	text-shadow: 1px 1px 2px #bbb;

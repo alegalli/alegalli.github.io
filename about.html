@@ -38,13 +38,14 @@
 </head>
 
 <body>
+<div id="header-container"></div>
 <section id="single-team" class="container">
     <div class="row">
-      <div class="span12">
-        <div class="team-img">
-          <img src="assets/img/about.jpg" alt="About">
+        <div class="span12">
+            <div class="team-img">
+              <img src="assets/img/about.jpg" alt="About">
+            </div>
         </div>
-      </div>
     </div>
 </section>
 
@@ -131,7 +132,8 @@
     fetch("assets/components/header.html")
         .then(response => response.text())
         .then(data => {
-            document.body.insertAdjacentHTML("afterbegin", data);
+            document.getElementById('header-container').innerHTML = data;
+              // document.body.insertAdjacentHTML("afterbegin", data);
         })
         .catch(error => console.error("Error loading header:", error));
     fetch('assets/components/footer.html')
@@ -141,9 +143,10 @@
     });
 </script>
 <!-- Dynamic Navbar -->
-<script src="assets/js/navbar.js"></script>
+<script src="assets/js/navbar.js" defer></script>
+<script src="assets/js/sidebar.js" defer></script> 
 <!-- JS Dark Theme -->
-<script src="assets/js/theme.js"></script>
+<script src="assets/js/theme.js" defer></script>
 <!-- JS Modernizr -->
 <script src="assets/js/modernizr.js"></script>
 

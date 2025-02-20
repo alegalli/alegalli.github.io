@@ -73,14 +73,18 @@
             document.getElementById('header-container').innerHTML = data;
             // document.body.insertAdjacentHTML("afterbegin", data);
             // Dynamic Navbar
-            const script = document.createElement('script');
-            script.src = 'assets/js/navbar.js';
-            script.defer = true;
-            document.body.appendChild(script);
-            const script1 = document.createElement('script');
-            script1.src = 'assets/js/sidebar.js';
-            script1.defer = true;
-            document.body.appendChild(script1);
+            // const script = document.createElement('script');
+            // script.src = 'assets/js/navbar.js';
+            // script.defer = true;
+            // document.body.appendChild(script);
+            // const script1 = document.createElement('script');
+            // script1.src = 'assets/js/sidebar.js';
+            // script1.defer = true;
+            // document.body.appendChild(script1);
+            // const script2 = document.createElement('script');
+            // script2.src = 'assets/js/theme.js';
+            // script2.defer = true;
+            // document.body.appendChild(script2);
         })
         .catch(error => console.error("Error loading header:", error));
     fetch('assets/components/footer.html')
@@ -90,14 +94,14 @@
     });
 </script>
 <!-- Dynamic Navbar -->
-<!-- <script src="assets/js/navbar.js" defer></script>
-<script src="assets/js/sidebar.js" defer></script>  -->
+<script src="assets/js/navbar.js" defer></script>
+<script src="assets/js/sidebar.js" defer></script> 
 
 <!-- <script src="accessible-navbar/script.js"></script> -->
 <!-- JS PJs -->
 <script src="assets/js/loadProjects.js"></script>
 <!-- JS Dark Theme -->
-<script src="assets/js/theme.js"></script>
+<script src="assets/js/theme.js" defer></script>
 <!-- JS Modernizr -->
 <script src="assets/js/modernizr.js"></script>
 

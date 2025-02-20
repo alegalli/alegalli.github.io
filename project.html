@@ -38,6 +38,7 @@
 </head>
 
 <body>
+<div id="header-container"></div>
 <!-- Start Intro Box -->
 <section id="intro-box project-content" class="margin-0">
 	<div class="container">
@@ -93,7 +94,8 @@
     fetch("assets/components/header.html")
         .then(response => response.text())
         .then(data => {
-            document.body.insertAdjacentHTML("afterbegin", data);
+            document.getElementById('header-container').innerHTML = data;
+            // document.body.insertAdjacentHTML("afterbegin", data);
         })
         .catch(error => console.error("Error loading header:", error));
     fetch('assets/components/footer.html')
@@ -103,11 +105,12 @@
     });
 </script>
 <!-- Dynamic Navbar -->
-<script src="assets/js/navbar.js"></script>
-<script src="assets/js/loadProjects.js"></script>
+<script src="assets/js/navbar.js" defer></script>
+<script src="assets/js/sidebar.js" defer></script> 
+<script src="assets/js/loadProjects.js" defer></script>
 <script src="assets/js/loadSuggestedProjects.js"></script>
 <!-- JS Dark Theme -->
-<script src="assets/js/theme.js"></script>
+<script src="assets/js/theme.js" defer></script>
 <!-- JS Modernizr -->
 <script src="assets/js/modernizr.js"></script>
 </html>
