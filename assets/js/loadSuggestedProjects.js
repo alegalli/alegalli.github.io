@@ -42,9 +42,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                             </div> 
                                             <div class="project-summary"> 
                                                 <p>${project.summary}</p> 
-                                                <div class="badges" align="start" dir="auto" style="height: 20px">
-                                                    ${badgeHTML.join('')}
-                                                </div>
+                                                ${badgeHTML.length>0 ? '<div class="badges" align="start" dir="auto">'
+                                                    + badgeHTML.join('') +
+                                                '</div>' : ""}
                                             </div> 
                                         </a>
                                     `;

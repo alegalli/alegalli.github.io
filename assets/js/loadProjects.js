@@ -35,15 +35,16 @@ document.addEventListener("DOMContentLoaded", function () {
                             const cover_photo = project.cover_photo || "assets/img/home1.jpg";
                             
                             // custom badges https://medium.com/@samunyi90/how-to-make-custom-language-badges-for-your-profile-using-shields-io-ec69ea95dfc0
-                            let badgeHTML = project.tools.map(tool => {
-                                let skill = skillsMap[tool];
-                                if (skill) {
-                                    return `
-                                        <img src="https://img.shields.io/badge/-${skill.urlName}-${skill.color}?logo=${skill.logo}&logoColor=${skill.logoColor}&logoWidth=30" 
-                                            alt="${tool}" style="max-height: 20px; width: auto;">
-                                    `;
-                                }
-                            });
+                            // let badgeHTML = project.tools.map(tool => {
+                            //     let skill = skillsMap[tool];
+                            //     if (skill) {
+                            //         return `
+                            //             <img src="https://img.shields.io/badge/-${skill.urlName}-${skill.color}?logo=${skill.logo}&logoColor=${skill.logoColor}&logoWidth=30" 
+                            //                 alt="${tool}" style="max-height: 20px; width: auto;">
+                            //         `;
+                            //     }
+                            // });
+                            let badgeHTML = getBadges(skillsMap, project);
 
                             projectElement.innerHTML = `
                                 <a href="project.html?pj=${project.id}" class="project-link"> 
@@ -52,9 +53,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                     </div> 
                                     <div class="project-summary"> 
                                         <p>${project.summary}</p> 
-                                        <div class="badges" align="start" dir="auto" style="height: 20px">
-                                            ${badgeHTML.join('')}
-                                        </div>
+                                        ${badgeHTML.length>0 ?'<div class="badges" align="start" dir="auto" style="height: 20px">'
+                                            +badgeHTML.join(' ')+
+                                        '</div>' : ""}
                                     </div> 
                                 </a>
                             `;
@@ -67,11 +68,32 @@ document.addEventListener("DOMContentLoaded", function () {
                     const project = projects.find(p => p.id == projectId);
                     if (project) {
                         document.getElementById("project-title").textContent = project.name;
-                        document.getElementById("project-year").textContent = `Year: ${project.year}` || "";
-                        document.getElementById("project-topic").textContent = `Topic: ${project.topic}` || "";
-                        document.getElementById("project-tools").textContent = `Tools & Libraries: ${project.tools}` || "";
-                        document.getElementById("project-summary").textContent = project.summary || "No summary available.";
-                        document.getElementById("project-description").innerHTML = project.description || "No description available.";
+
+                        let skillsMap = {};
+                        fetch("skills.json")
+                            .then(response => response.json())
+                            .then(skills => {
+                                // let skillsMap = {};
+                                skills.forEach(skill => {
+                                    skillsMap[skill.name] = skill;
+                                })
+                                let badgeHTML = getBadges(skillsMap, project);
+
+                                let infoHTML = `<div class="project-year"> ${project.year>0 ? "Year: "+project.year : ""}</div>
+                                        <div class="project-topic"> ${project.topic.length>0 ? "Topic: "+project.topic : ""}</div>
+                                        <div class="project-tools"> ${badgeHTML.length>0 ? "Tools & Libraries: "+badgeHTML.join(" ") : ""}</div>`;
+
+
+                                // document.getElementById("project-year").textContent = `Year: ${project.year}` || "";
+                                // document.getElementById("project-topic").textContent = `Topic: ${project.topic}` || "";
+                                // document.getElementById("project-tools").textContent = `Tools & Libraries: ${project.tools}` || "";
+                                document.getElementById("project-info").innerHTML = infoHTML;
+
+                                document.getElementById("project-summary").textContent = project.summary || "No summary available.";//"";
+                                document.getElementById("project-description").innerHTML = project.description || "";//"No description available.";
+                                const project_photo = project.cover_photo || "assets/img/home1.jpg";
+                                document.getElementById("project-photo").src = project_photo;
+                        })
                     } else {
                         document.getElementById("project-content").innerHTML = "<p>Project not found.</p>";
                     }
@@ -81,7 +103,24 @@ document.addEventListener("DOMContentLoaded", function () {
             }   
         })
         .catch(error => console.error("Error loading projects:", error));
+
+    function getBadges(skillsMap, project) {
+        // custom badges https://medium.com/@samunyi90/how-to-make-custom-language-badges-for-your-profile-using-shields-io-ec69ea95dfc0
+        let badgeHTML = project.tools.map(tool => {
+            let skill = skillsMap[tool];
+            if (skill) {
+                return `
+                    <img src="https://img.shields.io/badge/-${skill.urlName}-${skill.color}?logo=${skill.logo}&logoColor=${skill.logoColor}&logoWidth=30" 
+                        alt="${tool}" style="max-height: 20px; width: auto;">
+                `;
+            } else {
+                return tool;
+            }
+        });
+        return badgeHTML;
+    }
 });
+
 
 // Generic Comparator for Sorting JSON https://stackoverflow.com/questions/69734479/sort-json-string-by-attribute-in-javascript
 function inverted_by(property) {
