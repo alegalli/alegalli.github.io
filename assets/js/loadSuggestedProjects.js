@@ -5,10 +5,12 @@ document.addEventListener("DOMContentLoaded", function () {
             const urlParams = new URLSearchParams(window.location.search);
             const projectId = urlParams.get("pj");
             if (projectId) {
-                if (projects.length > 3) {
-                    projects = projects.filter(pj => pj.id != projectId);
-                    const shuffled = [...projects].sort(() => 0.5 - Math.random()); // Shuffle copy of projects
-                    const selectedProjects = shuffled.slice(0, 3);
+                let publicPjs = projects.filter(project => project.public);
+
+                // if (publicPjs.length > 3) {
+                    publicPjs = publicPjs.filter(pj => pj.id != projectId);
+                    const shuffled = [...publicPjs].sort(() => 0.5 - Math.random()); // Shuffle copy of projects
+                    const selectedProjects = shuffled.slice(0, Math.min(3, publicPjs.length));
                     const container = document.getElementById("suggested-container");
                     if (container) {
                         container.innerHTML = ""; // Clear existing content
@@ -58,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 });
                         })
                     }
-                }
+                // }
             }
         })
         .catch(error => console.error("Error loading suggested projects:", error));

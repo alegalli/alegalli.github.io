@@ -172,13 +172,26 @@ h7{
 ================================================== */
 
 /* Single Team Page */
+/* 
+#single-team {
+	display: flex;
+	margin: 20px;
+}
+
+.about-summary {
+	display: flex;
+	align-content: center;
+	justify-content: center;
+}
 
 #single-team .team-img {
-	margin: 30px;
+	display: flex;
 }
 
 #single-team .team-img img {
 	width: 100%;
+	border-radius: 10px;
+	display: flex;
 }
 
 .sugg-img img {
@@ -187,7 +200,50 @@ h7{
 
 .about-side-img {
 	margin: 30px;
+} */
+#single-team {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 32px;
 }
+  
+.about-summary {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 32px;
+	max-width: 900px;
+	margin: 0 auto;
+}
+  
+.about-text {
+	flex: 1;
+	text-align: center;
+}
+  
+.about-img img {
+	width: 100%;
+	max-width: 400px;
+	border-radius: 10px;
+}
+
+@media screen and (max-width: 768px) {
+	/* about.html */
+	.about-summary {
+		flex-direction: column;
+ 	}
+
+	.about-text {
+		text-align: left;
+	}
+
+	.about-img {
+		text-align: center;
+	}
+}
+
+
 
 
 /* ==================================================
@@ -449,7 +505,7 @@ footer.footer {
     transition: color 0.3s ease;
 }
 
-.footer a:hover {
+.footer-link:hover {
     color: #005bb5;
     text-decoration: underline;
 	font-weight: 600;
@@ -460,13 +516,13 @@ footer.footer {
 	gap: 20px;
 }
 
-.footer-links a img {
+.footer-link img {
 	/* width: 24px;
 	height: 24px; */
 	transition: transform 0.2s ease-in-out;
 }
 
-.footer-links a:hover img {
+.footer-link:hover img {
 	transform: scale(1.1);
 }
 

@@ -58,5 +58,25 @@
         "logoColor": "white",
         "tool": "Library",
         "macro": ["Python", "API"]
+    },
+    {
+        "id": 7,
+        "name": "html",
+        "urlName": "html",
+        "color": "E34C26",
+        "logo": "html5",
+        "logoColor": "white",
+        "tool": "Language",
+        "macro": ["HTML", "Web Development"]
+    },
+    {
+        "id": 8,
+        "name": "css",
+        "urlName": "css",
+        "color": "264DE4",
+        "logo": "css3",
+        "logoColor": "white",
+        "tool": "Language",
+        "macro": ["CSS", "Web Development"]
     }
 ]

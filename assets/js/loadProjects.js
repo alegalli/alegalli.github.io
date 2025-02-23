@@ -15,7 +15,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 //index.html
                 var i=0;
                 let publicPjs = projects.filter(project => project.public);
-                publicPjs.sort(inverted_by('id'));
+                // Sorting the visualization of the projects in the homepage
+                // publicPjs.sort(inverted_by('id'));
                 
                 console.log(projects);
                 console.log(publicPjs);
@@ -30,7 +31,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         publicPjs.forEach((project, i) => {
                             const projectElement = document.createElement("li");
-                            const span = i % 3 == 0 ? "span12" : "span6";
+                            let span = i%3 == 0 ? "span12" : "span6";
+                            if ((i==(publicPjs.length-1)) && (publicPjs.length%3 == 2)) {
+                                span = "span12";
+                            }
                             projectElement.classList.add("item-project", span);
                             const cover_photo = project.cover_photo || "assets/img/home1.jpg";
                             
@@ -78,10 +82,15 @@ document.addEventListener("DOMContentLoaded", function () {
                                     skillsMap[skill.name] = skill;
                                 })
                                 let badgeHTML = getBadges(skillsMap, project);
+                                let codeLink = `<a href="`+project.code+`" target="_blank" class="footer-link">
+                                                    <img src="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png" alt="" style="width: 20px; height: 20px; border-radius: 5px; margin-bottom: 2px;">
+                                                    GitHub Repo
+                                                </a>`;
 
-                                let infoHTML = `<div class="project-year"> ${project.year>0 ? "Year: "+project.year : ""}</div>
-                                        <div class="project-topic"> ${project.topic.length>0 ? "Topic: "+project.topic : ""}</div>
-                                        <div class="project-tools"> ${badgeHTML.length>0 ? "Tools & Libraries: "+badgeHTML.join(" ") : ""}</div>`;
+                                let infoHTML = `<div class="project-year"> ${project.year>0 ? "<b>Year</b>: "+project.year : ""}</div>
+                                        <div class="project-topic"> ${project.topic.length>0 ? "<b>Topic</b>:<br> "+project.topic.join("<br>") : ""}</div>
+                                        <div class="project-tools"> ${badgeHTML.length>0 ? "<b>Tools & Libraries</b>:<br> "+badgeHTML.join("<br>") : ""}</div>
+                                        <div class="project-tools"> ${project.code.length>0 ? "<b>Code</b>:<br>"+codeLink : ""}</div>`;
 
 
                                 // document.getElementById("project-year").textContent = `Year: ${project.year}` || "";
