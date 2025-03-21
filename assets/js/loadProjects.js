@@ -87,10 +87,22 @@ document.addEventListener("DOMContentLoaded", function () {
                                                     GitHub Repo
                                                 </a>`;
 
+                                let downloadLinks = `<div>`;
+                                project.downloads.forEach(download => {
+                                    downloadLinks += `<a href="${download}"  target="_blank" class="footer-link">
+                                                          <span class="material-symbols-outlined">
+                                                              download
+                                                          </span>
+                                                          ${download.split("files/")[1]}
+                                                      </a><br>`;
+                                })
+                                downloadLinks += `</div>`;
+
                                 let infoHTML = `<div class="project-year"> ${project.year>0 ? "<b>Year</b>: "+project.year : ""}</div>
                                         <div class="project-topic"> ${project.topic.length>0 ? "<b>Topic</b>:<br> "+project.topic.join("<br>") : ""}</div>
                                         <div class="project-tools"> ${badgeHTML.length>0 ? "<b>Tools & Libraries</b>:<br> "+badgeHTML.join("<br>") : ""}</div>
-                                        <div class="project-tools"> ${project.code.length>0 ? "<b>Code</b>:<br>"+codeLink : ""}</div>`;
+                                        <div class="project-code"> ${project.code.length>0 ? "<b>Code</b>:<br>"+codeLink : ""}</div>
+                                        <div class="project-downloads"> ${project.downloads.length>0 ? "<b>Downloads</b>:<br>"+downloadLinks : ""}</div>`;
 
 
                                 // document.getElementById("project-year").textContent = `Year: ${project.year}` || "";

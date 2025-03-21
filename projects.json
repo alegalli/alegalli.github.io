@@ -15,17 +15,17 @@
     },
     {
         "id": 2,
-        "name": "conflictSahel",
+        "name": "foodSahel",
         "public": true,
         "template_pj": "",
         "year": 2019,
-        "topic": ["Data Science"],
-        "code": "https://github.com/alegalli/conflictSahel",
-        "summary": "Assess the food insecurity-conflicts vicious cycle of Liptako-Gourma in order to help the provinces which are more in need of first aid.",
+        "topic": ["Data Vizualization"],
+        "code": "https://github.com/alegalli/foodSahel",
+        "summary": "Vizualization of the Liptako-Gourma food insecurity in order to asses provinces which are more in need of first aid.",
         "description": "<h3>Specific objectives: </h3> <br> <p>• Identifying the three most afflicted provinces: the ones with higher percentage of food insecure people. <br> • Comparing the dimensions of the selected provinces and determining analogies and differences. <br> • Assessing changes in the dimensions values over the years for the selected provinces and for all Liptako-Gourma</> <h3>Food insecurity-conflicts vicious cycle Dimensions:</h3><br> <p>• Food Insecurity                  : percentage of food insecure people<br> • Food Access                      : food prices<br> • Food Stability                   : food prices stability<br> • Conflict Size                    : number of fatalities<br> • Conflict Severity                : fatalities divided by conflicts<br> • Internally Displaced People      : number of IDPs </p>",
-        "tools": ["Python", "scikit-learn", "Seaborn"],
-        "cover_photo": "assets/img/foodSahel-2019.webp",
-        "downloads": []
+        "tools": ["Python", "Seaborn"],
+        "cover_photo": "assets/img/13-the-journey.mali_.jpg",
+        "downloads": ["assets/files/Visualization Predict Food Security in Sahel.pdf"]
     },
     {
         "id": 3,
@@ -43,6 +43,20 @@
     },
     {
         "id": 4,
+        "name": "conflictSahel",
+        "public": true,
+        "template_pj": "",
+        "year": 2019,
+        "topic": ["Data Science"],
+        "code": "https://github.com/alegalli/conflictSahel",
+        "summary": "Assess the food insecurity-conflicts vicious cycle of Liptako-Gourma in order to help the provinces which are more in need of first aid.",
+        "description": "<h3>Specific objectives: </h3> <br> <p>• Identifying the three most afflicted provinces: the ones with higher percentage of food insecure people. <br> • Comparing the dimensions of the selected provinces and determining analogies and differences. <br> • Assessing changes in the dimensions values over the years for the selected provinces and for all Liptako-Gourma</> <h3>Food insecurity-conflicts vicious cycle Dimensions:</h3><br> <p>• Food Insecurity                  : percentage of food insecure people<br> • Food Access                      : food prices<br> • Food Stability                   : food prices stability<br> • Conflict Size                    : number of fatalities<br> • Conflict Severity                : fatalities divided by conflicts<br> • Internally Displaced People      : number of IDPs </p>",
+        "tools": ["Python", "pandas", "scikit-learn", "Seaborn"],
+        "cover_photo": "assets/img/09-mali-sangare.jpeg",
+        "downloads": ["assets/files/Food Security and Conflicts - Galli Presentation.pdf", "assets/files/Food Security and Conflicts - Galli Thesis.pdf"]
+    },
+    {
+        "id": 5,
         "name": "Italy u17 Mixed - EYUC17 2024 (Gold Medal)",
         "public": false,
         "template_pj": "",
@@ -56,7 +70,7 @@
         "downloads": []
     },
     {
-        "id": 5,
+        "id": 6,
         "name": "toolsView",
         "public": false,
         "template_pj": "",
@@ -70,7 +84,7 @@
         "downloads": []
     },
     {
-        "id": 6,
+        "id": 7,
         "name": "Team Evaluation BFD La Fotta - EUCF 2024 (4th place)",
         "public": false,
         "template_pj": "",
@@ -84,7 +98,7 @@
         "downloads": []
     },
     {
-        "id": 7,
+        "id": 8,
         "name": "Improving BFD La Fotta - EUCF 2024 (4th place)",
         "public": false,
         "template_pj": "",
@@ -98,7 +112,7 @@
         "downloads": []
     },
     {
-        "id": 8,
+        "id": 9,
         "name": "Opponent Scouting Template",
         "public": false,
         "template_pj": "",

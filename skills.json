@@ -78,5 +78,15 @@
         "logoColor": "white",
         "tool": "Language",
         "macro": ["CSS", "Web Development"]
+    },
+    {
+        "id": 9,
+        "name": "pandas",
+        "urlName": "pandas",
+        "color": "150458",
+        "logo": "pandas",
+        "logoColor": "white",
+        "tool": "Library",
+        "macro": ["Python", "Data Science"]
     }
 ]
