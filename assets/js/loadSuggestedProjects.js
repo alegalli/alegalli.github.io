@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 selectedProjects.forEach(project => {
                                     const projectElement = document.createElement("div");
                                     projectElement.classList.add("item-project", "span4");
-                                    const cover_photo = project.cover_photo || "assets/img/home1.jpg";
+                                    const cover_photo = project.cover_photo || ["assets/img/home1.jpg",""];
                                     
                                     // custom badges https://medium.com/@samunyi90/how-to-make-custom-language-badges-for-your-profile-using-shields-io-ec69ea95dfc0
                                     let badgeHTML = project.tools.map(tool => {
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                     projectElement.innerHTML = `
                                         <a href="project.html?pj=${project.id}" class="project-link"> 
-                                            <div class="project-image" style="background-image: url('${cover_photo}')"> 
+                                            <div class="project-image" style="background-image: url('${cover_photo[0]}')"> 
                                                 <h2 class="project-title"> ${project.name} </h2> 
                                             </div> 
                                             <div class="project-summary"> 
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     container.appendChild(projectElement);
                                     // projectElement.innerHTML = `
                                     //     <div class="sugg-img">
-                                    //         <img src="${project.cover_photo || 'assets/img/placeholder.jpg'}" alt="${project.name}">
+                                    //         <img src="${project.cover_photo[0] || 'assets/img/placeholder.jpg'}" alt="${project.name}">
                                     //     </div>
                                     // `;
                                     // container.appendChild(projectElement);

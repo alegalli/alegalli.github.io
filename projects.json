@@ -4,56 +4,56 @@
         "name": "Players Evalutation, Bologna La Fotta - EUCF 2024 (4th place)",
         "public": true,
         "template_pj": "players-evaluation",
-        "year": 2024,
+        "year": 2025,
         "topic": ["Sport Analysis", "Data Science"],
         "code": "https://github.com/alegalli/peLaFottaEUCF2024",
         "summary": "Players Evaluation based on the main tournament of the season. Measuring the impact of each Player on the Team.",
         "description": "<h3>What</h3> <br> <p></p> <br> <h3>Solution</h3> <br> <p></p> <br> <h3>Why</h3> <br> <p></p> <br> <h3>How</h3> <br> <p>Data: I recorded by hand all the data utilized in this project for the whole 7 games played.</p> <p>Cleaning: </p> <p>Analysis: </p> <p>Visualization: </p> <h3>Take Home</h3> <p></p>",
-        "tools": ["Python", "scikit-learn", "Seaborn"],
-        "cover_photo": "assets/img/EUCF-2024-Bologna-La-Fotta2.jpg",
+        "tools": ["Python", "pandas", "scikit-learn", "Seaborn"],
+        "cover_photo": ["assets/img/EUCF-2024-Bologna-La-Fotta2.jpg","Carl Mardell, @ultimatepaparazzo"],
         "downloads": []
     },
     {
         "id": 2,
+        "name": "conflictSahel",
+        "public": true,
+        "template_pj": "",
+        "year": 2021,
+        "topic": ["Data Science"],
+        "code": "https://github.com/alegalli/conflictSahel",
+        "summary": "Assess the food insecurity-conflicts vicious cycle of Liptako-Gourma.",
+        "description": "<div class='pj-description'>     <h2>ConflictSahel: Understanding the Food Security-Conflict Vicious Cycle</h2>          <p>         <strong>ConflictSahel</strong> is a data-driven project analyzing the complex relationship between food insecurity, conflict, internal displacement (IDPs), and food prices in the Sahel region, with a specific focus on the <em>Liptako-Gourma</em> area, a cross-border region encompassing Burkina Faso, Mali, and Niger.     </p>          <p>        <strong>Project Scope</strong><br>         This project integrates multiple datasets, to identify patterns and correlations within the food security-conflict dynamic. By leveraging empirical analysis and advanced data visualization, ConflictSahel aims to highlight the interplay between these critical dimensions and inform humanitarian interventions.     </p>           <strong>Key Research Questions</strong><br>     <ul>         <li>What trends have emerged in the three most food-insecure provinces since 2014?</li>         <li>How have the dimensions of food security, conflict severity, and displacement evolved?</li>         <li>What are the underlying correlations between food insecurity, conflict, and IDP displacement?</li>     </ul>          <p>         <strong>Data Sources & Methodology</strong><br>         The project utilizes open-source datasets from the <strong>Cadre Harmonisé</strong>, <strong>World Food Program (WFP)</strong>, <strong>ACLED Project</strong>, and <strong>International Organization for Migration (IOM)</strong>. Analytical methods include statistical correlation testing (Pearson’s r), visualization techniques (heatmaps, time series plots), and geographic mapping to reveal spatial and temporal trends.     </p>          <p>        <strong>Findings</strong><br>         Our analysis confirms that <strong>food insecurity, conflict size, conflict severity, and IDPs size are strongly correlated</strong>, reinforcing the existence of a vicious cycle exacerbating instability in the region. However, <em>average food prices and food price stability</em> showed no significant correlation with the other dimensions, suggesting the need for further exploration.     </p>          <div class='pj-image'>         <img src='assets/img/corrgraph.png' alt='Correlation Graph between Food Insecurity, Conflict, and IDPs' class='responsive project-photo'>     <p class='img-caption'>Correlation Graph between Food Insecurity, Conflict, and IDPs.</p>      </div>          <p>        <strong>Visual Insights</strong><br>         The project's data visualization techniques effectively communicate the severity and progression of crises in the region. Heatmaps, correlation graphs, and time series plots depict how food insecurity and conflicts intertwine over time. Key observations include:     </p>     <ul>         <li>All major dimensions (food insecurity, conflict size, and IDP displacement) have worsened since 2016.</li>         <li>Menaka’s conflict size showed a decreasing trend starting in 2018, while other provinces remain volatile.</li>         <li>The correlation graph confirms the strong link between conflict intensity and forced displacement.</li>     </ul>          <div class='pj-image'>         <img src='assets/img/empirical analysis.png' alt='Empirical Analysis of the 3 most Food Insecure provinces in 2019' class='responsive project-photo'>     <p class='img-caption'>Empirical Analysis of the 3 most Food Insecure provinces in 2019.</p>     </div>          <p>           <strong>Next Steps</strong><br>         Future improvements will focus on:     </p>     <ul>         <li>Expanding food price data to include cereal and livestock prices, along with household income statistics.</li>         <li>Developing an interactive dashboard that can be updated with real time data to be consulted.</li>         <li>Enhancing statistical modeling with regression analysis and predictive forecasting.</li>     </ul>     <p>          <strong>Key Takeaways</strong><br>         The food security-conflict vicious cycle in Liptako-Gourma is self-perpetuating, requiring urgent humanitarian intervention. Strengthening resilience strategies is essential to breaking this cycle and stabilizing the region.     </p>          <p><strong>Thank you for exploring ConflictSahel.</strong></p> </div>",
+        "tools": ["Python", "pandas", "scikit-learn", "Seaborn"],
+        "cover_photo": ["assets/img/09-mali-sangare.jpeg","Alfredo Caliz"],
+        "downloads": ["assets/files/Food Security and Conflicts - Galli Presentation.pdf", "assets/files/Food Security and Conflicts - Galli Thesis.pdf"]
+    },
+    {
+        "id": 3,
         "name": "foodSahel",
         "public": true,
         "template_pj": "",
         "year": 2019,
-        "topic": ["Data Vizualization"],
+        "topic": ["Data Visualization"],
         "code": "https://github.com/alegalli/foodSahel",
-        "summary": "Vizualization of the Liptako-Gourma food insecurity in order to asses provinces which are more in need of first aid.",
-        "description": "<h3>Specific objectives: </h3> <br> <p>• Identifying the three most afflicted provinces: the ones with higher percentage of food insecure people. <br> • Comparing the dimensions of the selected provinces and determining analogies and differences. <br> • Assessing changes in the dimensions values over the years for the selected provinces and for all Liptako-Gourma</> <h3>Food insecurity-conflicts vicious cycle Dimensions:</h3><br> <p>• Food Insecurity                  : percentage of food insecure people<br> • Food Access                      : food prices<br> • Food Stability                   : food prices stability<br> • Conflict Size                    : number of fatalities<br> • Conflict Severity                : fatalities divided by conflicts<br> • Internally Displaced People      : number of IDPs </p>",
+        "summary": "Visualization of the Liptako-Gourma food insecurity and its causes in order to asses provinces which are more in need of first aid.",
+        "description": "<div class='pj-description'>     <h2>foodSahel: Data-Driven Insights for Food Security in the Sahel</h2>          <p>         <strong>Understanding Food Insecurity Through Data</strong><br>         The <em>foodSahel</em> project is a data-driven initiative designed to assess and visualize food insecurity in the          <strong>Liptako-Gourma</strong> region of the Sahel—an area deeply affected by conflict, economic instability,          and climate-related agricultural challenges. By combining multiple data sources, foodSahel uncovers          <strong>patterns of vulnerability</strong> and provides actionable insights for policymakers, humanitarian organizations,          and researchers working to mitigate food crises.     </p>      <!-- Image: Liptako-Gourma Map -->     <div class='pj-image'>         <img src='assets/img/mapLG.png' alt='Liptako-Gourma region with province borders' class='responsive project-photo'>         <p class='img-caption'>Geographical focus of foodSahel: Liptako-Gourma region.</p>     </div>      <p>         <strong>Bridging Data and Decision-Making</strong><br>         At its core, foodSahel translates complex datasets into <strong>meaningful stories</strong> that highlight the key          drivers of food insecurity. Using historical data from <strong>2014 to 2019</strong>, the project focuses on identifying:     </p>     <ul>         <li><strong>The three most afflicted provinces</strong> with the highest percentage of food-insecure people.</li>         <li><strong>Key trends over time</strong>, assessing how food insecurity has evolved across different provinces.</li>         <li><strong>The interplay between food prices, conflict, and displacement</strong>, shedding light on the vicious cycle that exacerbates hunger.</li>     </ul>      <p>         <strong>Data, Analysis &amp; Visualization</strong><br>         foodSahel integrates multiple dimensions of food security into a <strong>cohesive analytical framework</strong>:     </p>     <ul>         <li><strong>Food Insecurity</strong> – Tracking the percentage of people facing food shortages.</li>         <li><strong>Food Access &amp; Stability</strong> – Analyzing fluctuations in millet prices to gauge economic stress.</li>         <li><strong>Conflict Impact</strong> – Measuring the number of fatalities and conflict severity (fatalities per conflict).</li>         <li><strong>Displacement Crisis</strong> – Quantifying the number of <strong>Internally Displaced People (IDPs)</strong> to assess migration patterns.</li>     </ul>      <p>         Using <strong>geospatial analysis</strong>, predictive modeling, and <strong>data visualization</strong>, foodSahel transforms raw statistics into an intuitive          <em>narrative of crisis and resilience</em>.     </p>      <!-- Image: Correlation between food insecurity, conflicts, and millet prices -->     <div class='pj-image'>         <img src='assets/img/corr-mopti.png' alt='Correlation between food insecurity, conflicts, and millet prices' class='responsive project-photo'>         <p class='img-caption'>Uncovering links between food insecurity, conflicts, and market prices.</p>     </div>      <p>         <strong>Key Achievements</strong>     </p>     <ul>         <li><strong>Predictive Modeling for Food Security</strong> – Developed models that forecast food shortages by correlating biomass availability, market trends, and conflict data. These insights help <strong>anticipate</strong> humanitarian needs rather than reacting to them.</li>         <li><strong>Data-Driven Geographic Prioritization</strong> – By visualizing food insecurity at the <strong>province level</strong>, foodSahel pinpoints regions where aid is <strong>most urgently needed</strong>, enabling better resource allocation.</li>         <li><strong>Conflict &amp; Food Price Correlation Analysis</strong> – Discovered <strong>critical relationships</strong> between conflict severity, food price spikes, and displacement trends, reinforcing the understanding of food insecurity as a <strong>multi-dimensional crisis</strong>.</li>     </ul>      <p>         <strong>Impact &amp; Future Directions</strong><br>         The insights from foodSahel not only contribute to <strong>evidence-based policy decisions</strong> but also demonstrate how          <em>data storytelling</em> can be a powerful tool in humanitarian efforts. Moving forward, expanding real-time data          integration and refining predictive models could further enhance the ability to <strong>preempt food crises</strong> before they escalate.     </p>      <p>         With a compelling mix of <strong>data science, geospatial analysis, and storytelling</strong>, foodSahel turns numbers into action—         helping to <strong>inform strategies that can save lives</strong>.     </p> </div>",
         "tools": ["Python", "Seaborn"],
-        "cover_photo": "assets/img/13-the-journey.mali_.jpg",
+        "cover_photo": ["assets/img/13-the-journey.mali_.jpg","Alfredo Caliz"],
         "downloads": ["assets/files/Visualization Predict Food Security in Sahel.pdf"]
     },
     {
-        "id": 3,
+        "id": 4,
         "name": "Personal Portfolio alegalli.github.io",
-        "public": true,
+        "public": false,
         "template_pj": "",
-        "year": 2024,
+        "year": 2025,
         "topic": ["Web Development"],
         "code": "https://github.com/alegalli/alegalli.github.io",
         "summary": "A simple portfolio to show my Data Science Projects.",
         "description": "Starting from a template I personalized it adding cool features. Structure and UI mostly changed, creating a Personalized Project Page for each one and abilitating the Dark Mode.",
         "tools": ["html","css","JS"],
-        "cover_photo": "assets/img/home1.jpg",
+        "cover_photo": ["assets/img/home1.jpg",""],
         "downloads": []
-    },
-    {
-        "id": 4,
-        "name": "conflictSahel",
-        "public": true,
-        "template_pj": "",
-        "year": 2019,
-        "topic": ["Data Science"],
-        "code": "https://github.com/alegalli/conflictSahel",
-        "summary": "Assess the food insecurity-conflicts vicious cycle of Liptako-Gourma in order to help the provinces which are more in need of first aid.",
-        "description": "<h3>Specific objectives: </h3> <br> <p>• Identifying the three most afflicted provinces: the ones with higher percentage of food insecure people. <br> • Comparing the dimensions of the selected provinces and determining analogies and differences. <br> • Assessing changes in the dimensions values over the years for the selected provinces and for all Liptako-Gourma</> <h3>Food insecurity-conflicts vicious cycle Dimensions:</h3><br> <p>• Food Insecurity                  : percentage of food insecure people<br> • Food Access                      : food prices<br> • Food Stability                   : food prices stability<br> • Conflict Size                    : number of fatalities<br> • Conflict Severity                : fatalities divided by conflicts<br> • Internally Displaced People      : number of IDPs </p>",
-        "tools": ["Python", "pandas", "scikit-learn", "Seaborn"],
-        "cover_photo": "assets/img/09-mali-sangare.jpeg",
-        "downloads": ["assets/files/Food Security and Conflicts - Galli Presentation.pdf", "assets/files/Food Security and Conflicts - Galli Thesis.pdf"]
     },
     {
         "id": 5,
@@ -66,7 +66,7 @@
         "summary": "italy mixed is a really really really really strong team that competed in the European championship held in Gent, Belgium and won the championship!",
         "description": "",
         "tools": [],
-        "cover_photo": "assets/img/EYUC17-2024-Italy.jpg",
+        "cover_photo": ["assets/img/EYUC17-2024-Italy.jpg",""],
         "downloads": []
     },
     {
@@ -80,7 +80,7 @@
         "summary": "",
         "description": "",
         "tools": ["ReactJS", "FastAPI", "JS"],
-        "cover_photo": "assets/img/home4.jpg",
+        "cover_photo": ["assets/img/home4.jpg",""],
         "downloads": []
     },
     {
@@ -94,7 +94,7 @@
         "summary": "Team Evaluation based on the main tournament of the season. Measuring the impact of the whole Team compared to the other partecipating in the competition.",
         "description": "",
         "tools": [],
-        "cover_photo": "assets/img/home2.jpg",
+        "cover_photo": ["assets/img/home2.jpg",""],
         "downloads": []
     },
     {
@@ -108,7 +108,7 @@
         "summary": "",
         "description": "",
         "tools": [],
-        "cover_photo": "assets/img/home2.jpg",
+        "cover_photo": ["assets/img/home2.jpg",""],
         "downloads": []
     },
     {
@@ -122,7 +122,7 @@
         "summary": "Performance Analysis",
         "description": "",
         "tools": [],
-        "cover_photo": "",
+        "cover_photo": ["",""],
         "downloads": []
     }
 ]

@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 span = "span12";
                             }
                             projectElement.classList.add("item-project", span);
-                            const cover_photo = project.cover_photo || "assets/img/home1.jpg";
+                            const cover_photo = project.cover_photo || ["assets/img/home1.jpg",""];
                             
                             // custom badges https://medium.com/@samunyi90/how-to-make-custom-language-badges-for-your-profile-using-shields-io-ec69ea95dfc0
                             // let badgeHTML = project.tools.map(tool => {
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             projectElement.innerHTML = `
                                 <a href="project.html?pj=${project.id}" class="project-link"> 
-                                    <div class="project-image" style="background-image: url('${cover_photo}')"> 
+                                    <div class="project-image" style="background-image: url('${cover_photo[0]}')"> 
                                         <h2 class="project-title"> ${project.name} </h2> 
                                     </div> 
                                     <div class="project-summary"> 
@@ -110,10 +110,11 @@ document.addEventListener("DOMContentLoaded", function () {
                                 // document.getElementById("project-tools").textContent = `Tools & Libraries: ${project.tools}` || "";
                                 document.getElementById("project-info").innerHTML = infoHTML;
 
-                                document.getElementById("project-summary").textContent = project.summary || "No summary available.";//"";
-                                document.getElementById("project-description").innerHTML = project.description || "";//"No description available.";
-                                const project_photo = project.cover_photo || "assets/img/home1.jpg";
-                                document.getElementById("project-photo").src = project_photo;
+                                // document.getElementById("project-summary").textContent = project.summary || "No summary available.";//"";
+                                document.getElementById("project-description").innerHTML = project.description || project.summary || "";//"No description available.";
+                                const project_photo = project.cover_photo || ["assets/img/home1.jpg",""];
+                                document.getElementById("project-photo").src = project_photo[0] || "";
+                                document.getElementById("project-photo-caption").innerText = project_photo[1] ? "Photo credits: " + project_photo[1] : "";
                         })
                     } else {
                         document.getElementById("project-content").innerHTML = "<p>Project not found.</p>";
