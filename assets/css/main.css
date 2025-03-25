@@ -57,10 +57,10 @@ p {
 	margin: 0 0 30px;
 }
 
-/* ul {
-    margin: 0 0 20px 0px;
+#portfolio ul {
     padding: 0;
-} */
+    margin: 0;
+}
 
 #sidebar ul {
 	list-style: none;
@@ -110,17 +110,6 @@ h3{
 	margin-top: 0;
 	margin-bottom: 10px;
 }
-
-/* h6{
-	font-size:15px;
-	font-weight:400;
-	line-height:1em;
-	color:#B5B5B5;
-	text-align:center;
-	letter-spacing: 0.5px;
-	padding-top: 5px;
-
-} */
 
 h7{
 	font-size:14px;
@@ -179,42 +168,14 @@ h7{
 ================================================== */
 
 /* Single Team Page */
-/* 
-#single-team {
-	display: flex;
-	margin: 20px;
-}
 
-.about-summary {
-	display: flex;
-	align-content: center;
-	justify-content: center;
-}
-
-#single-team .team-img {
-	display: flex;
-}
-
-#single-team .team-img img {
-	width: 100%;
-	border-radius: 10px;
-	display: flex;
-}
-
-.sugg-img img {
-	width: 100%;
-}
-
-.about-side-img {
-	margin: 30px;
-} */
 #single-team {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	margin: 32px;
 }
-  
+
 .about-summary {
 	display: flex;
 	flex-direction: row;
@@ -223,12 +184,12 @@ h7{
 	max-width: 900px;
 	margin: 0 auto;
 }
-  
+
 .about-text {
 	flex: 1;
 	text-align: center;
 }
-  
+
 .about-img img {
 	width: 100%;
 	max-width: 400px;
@@ -254,13 +215,6 @@ h7{
 	}
 }
 
-@media screen and (max-width: 768px) {
-	/* #projects {
-		margin: 0 25px 10px 25px;
-		padding: 0;
-	}  */
-}
-
 /* ==================================================
    Portfolio
 ================================================== */
@@ -272,22 +226,6 @@ h7{
 	list-style: none;
 	margin-bottom: 30px;
 }
-
-/* .item-project {
-	position: relative;
-	overflow: hidden;
-	opacity: .55;
-}
-
-.item-project a {
-	width: 100%;
-	height: 100%;
-}
-
-.item-project:hover img,
-.item-project:active img {
-	opacity:.55
-} */
 
 /* New edits*/
 .projects {
@@ -316,7 +254,6 @@ h7{
 	border-top-right-radius: 10px;
     opacity: 0.7; /* Semi-transparent image */
     transition: opacity 0.3s ease-in-out;
-	/* box-shadow: 1px 0 0 rgba(200, 200, 200, 0.5); */
     box-shadow: 2px 0 0 rgba(209, 209, 209, 0.2);
 }
 
@@ -355,8 +292,6 @@ h7{
 }
 
 .project-summary {
-	/* background-color: #eee; */
-	/* rgba(200, 200, 200, 0.5); */
     font-size: 14px;
 }
 
@@ -376,13 +311,6 @@ h7{
 /* ==================================================
    Ale Suggested Projects
 ================================================== */
-
-/* .separator-line { */
-	/* border-color: #333;
-	border-width: 5px;
-	border-top: solid; */
-/* } */
-
 #suggested-projects {
 	padding: 10px;
 
@@ -390,13 +318,9 @@ h7{
 
 .sugg-pj {
 	padding: 20px;
-	/* box-shadow: 10px #333; */
-	/* border-left: solid;
-	border-right: solid; */
 	border-color: #CCC;
 	border-width: 1px;
 	border-top: solid;
-	/* border-radius: 20px; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -406,10 +330,10 @@ h7{
 #suggested-container {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap; 
-    gap: 20px; 
+    flex-wrap: wrap;
+    gap: 20px;
     max-width: 1000px;
-    margin: 0 auto; 
+    margin: 0 auto;
 }
 
 @media screen and (min-width: 768px) {
@@ -460,6 +384,21 @@ h7{
 }
 
 
+/* Adjust centering items */
+
+.row {
+	margin-left: 0;
+	margin-right: 0;
+}
+.row, .thumbnails {
+	margin-left: 0;
+	margin-right: 0;
+}
+.item-project {
+    margin: 0 auto;
+    max-width: 100%;
+}
+
 
 
 /* ==================================================
@@ -470,9 +409,6 @@ footer.footer {
 	background: transparent;
 	padding: 30px;
 	margin-bottom: 0px;
-    /* background: #f9f9f9; */
-    /* color: #333; */
-    /* padding: 40px 0; */
     font-size: 18px;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
 }
@@ -509,7 +445,6 @@ footer.footer {
 }
 
 .footer-link:hover {
-	/* background-color: #444; */
 	background-color: #CCC;
 }
 
@@ -531,8 +466,6 @@ footer.footer {
 }
 
 .footer-link img {
-	/* width: 24px;
-	height: 24px; */
 	transition: transform 0.2s ease-in-out;
 }
 
@@ -583,14 +516,11 @@ header #logo a {
 	font-weight: 500;
 	line-height: 60px;
 	letter-spacing: 2px;
-	/* width: 250px; */
 }
 
-/* @media (max-width: 768px) { */
-	.fixed-header #logo {
-		margin-left: 15px;
-	}
-/* } */
+.fixed-header #logo {
+	margin-left: 15px;
+}
 
 
 header #logo a:hover {
@@ -614,15 +544,7 @@ header #logo a:hover {
 	display: flex;
 	flex-direction: row;
 	align-content: space-between;
-	/* padding: 5px 0; */
-
-	/*mobileEdit*/
-	/* display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 15px; */
 }
-
 
 
 
@@ -635,28 +557,10 @@ header #logo a:hover {
 	--accent-color: #0071FF;
 	--text-color: #272832;
 }
-  /* *{
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-  } */
+
 html{
-	/* font-family: Poppins, 'Segoe UI', sans-serif; */
-	/* color: var(--text-color); */
-	/* color: var(--primary-color); */
 	scroll-behavior: smooth; /*For bookmark links*/
 }
-  /* body{
-	min-height: 100vh;
-	min-height: 100dvh;
-	background-color: var(--primary-color);
-  } */
-  /* main{
-	padding: min(5em, 7%);
-  }
-  main p{
-	margin-top: .35em;
-  } */
 
 #logo{
 	margin-right: auto;
@@ -688,7 +592,7 @@ html{
 	z-index: 9;
 	display: none;
 }
-  
+
 @media screen and (max-width: 768px) {
 	#open-sidebar-button, #close-sidebar-button{
 	  	display: block;
@@ -732,8 +636,6 @@ html{
 		transition: background-color 150ms ease;
 	  	padding-left: 1em;
 		padding-right: 4em;
-		/* padding-top: 1em;
-		padding-bottom: 1em; */
 	}
 
 	#sidebar a:hover {
@@ -743,10 +645,7 @@ html{
 		/* è più bello senza background e radius */
 		background-color: rgba(255, 255, 255, 0.3);
 		border-radius: 5px;
-	} 
-	/* #sidebar #logo{
-		margin-right: unset;
-	} */
+	}
 
 	nav {
 		display: none;
@@ -760,9 +659,6 @@ html{
 
 /* Responsive Styling */
 /* Hide desktop menu */
-/* @media (max-width: 768px) {
-
-}  */
 
 /* Navigation */
 #menu-nav {
@@ -770,8 +666,6 @@ html{
 	padding: 0;
 	list-style: none;
 	display: flex;
-	/* align-items: center; */
-	/* justify-content: end; */
 }
 
 #menu-nav li {
@@ -784,7 +678,6 @@ html{
 
 nav #menu-nav li a {
 	display: flex;
-	/* display: block; */
 	color: #888;
 	font-family: 'Montserrat', sans-serif;
 	font-size: 20px;
@@ -794,8 +687,6 @@ nav #menu-nav li a {
 	padding-left: 20px;
 	padding-right: 20px;
 	transition: background-color 150ms ease;
-	/* text-decoration: none; */
-	/* align-self: bottom; */
 }
 
 nav #menu-nav li a:hover {

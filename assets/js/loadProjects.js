@@ -31,10 +31,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         publicPjs.forEach((project, i) => {
                             const projectElement = document.createElement("li");
-                            let span = i%3 == 0 ? "span12" : "span6";
-                            if ((i==(publicPjs.length-1)) && (publicPjs.length%3 == 2)) {
-                                span = "span12";
-                            }
+                            // let span = i%3 == 0 ? "span12" : "span6";
+                            // if ((i==(publicPjs.length-1)) && (publicPjs.length%3 == 2)) {
+                            //     span = "span12";
+                            // }
+                            let span = "span12";
                             projectElement.classList.add("item-project", span);
                             const cover_photo = project.cover_photo || ["assets/img/home1.jpg",""];
                             
