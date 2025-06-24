@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>alegalli</title>
+    <link rel="icon" href="/assets/img/AG-circle.png">
+
+    <!-- Bootstrap 5.3.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Main Style -->
+    <link href="assets/css/main.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&amp;subset=latin,latin-ext,cyrillic"
+        rel="stylesheet">
+
+    <!-- Fav Icon -->
+    <link rel="shortcut icon" href="/assets/img/AG-circle.png">
+
+    <link rel="apple-touch-icon" href="/assets/img/AG-circle.png">
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .btn {
+            margin: 4px;
+            padding: 6px 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Ultimate Frisbee Stats</h1>
+
+    <!-- Page Navigation -->
+    <div id="menu">
+        <button class="btn" onclick="showGames()">📋 View Games</button>
+        <button class="btn" onclick="showNewGame()">🆕 Start New Game</button>
+        <button class="btn" onclick="downloadData()">⬇️ Download Data</button>
+    </div>
+
+    <!-- Games List -->
+    <div id="gamesPage" class="hidden">
+        <h2>Saved Games</h2>
+        <ul id="gamesList"></ul>
+        <button class="btn" onclick="hideAll()">🔙 Back</button>
+    </div>
+
+    <!-- New Game -->
+    <div id="newGamePage" class="hidden">
+        <h2>Start a New Game</h2>
+        <label>Game Name: <input type="text" id="gameName" /></label><br><br>
+        <label>Team A: <input type="text" id="teamA" /></label><br>
+        <label>Team B: <input type="text" id="teamB" /></label><br><br>
+        <button class="btn" onclick="createGame()">✅ Confirm</button>
+        <button class="btn" onclick="hideAll()">🔙 Back</button>
+    </div>
+
+    <!-- Placeholder: Game Page -->
+    <div id="gamePage" class="hidden">
+        <h2 id="gameTitle"></h2>
+        <p id="gameDetails"></p>
+        <button class="btn" onclick="hideAll()">🔙 Back</button>
+        <button class="btn" onclick="editRoster(currentGame.teamA)">✏️ Edit Team A Roster</button>
+        <button class="btn" onclick="editRoster(currentGame.teamB)">✏️ Edit Team B Roster</button>
+        <button class="btn" onclick="showLineups(currentGame.id)">📋 Set Lineups</button>
+        <button class="btn" onclick="downloadGameStory()">📖 Download Game Story</button>
+    </div>
+
+    <!-- Roster Edit Page -->
+    <div id="rosterEditPage" class="hidden">
+        <h2>Edit Roster: <span id="editTeamName"></span></h2>
+        <table id="rosterTable" border="1" cellpadding="4">
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Called Up</th>
+            </tr>
+        </table>
+        <button class="btn" onclick="addPlayerRow()">➕ Add Player</button>
+        <button class="btn" onclick="saveRoster()">💾 Save</button>
+        <button class="btn" onclick="hideAll()">🔙 Back</button>
+    </div>
+
+    <!-- Lineup Page -->
+    <div id="lineupPage" class="hidden">
+        <h2>Lineups</h2>
+        <div id="lineupsContainer"></div>
+        <div class="mt-3">
+            <button class="btn" onclick="hideAll()">🔙 Back</button>
+            <button class="btn btn-primary" onclick="startPoint()">🚀 Pull (Start Point)</button>
+        </div>
+    </div>
+
+    <!-- Point Page -->
+    <div id="pointPage" class="hidden">
+        <h2>Point in Progress</h2>
+        <div id="pointScore"></div>
+        <div id="pointButtons">
+            <button class="btn" onclick="undoLastEvent()">↩️ UNDO</button>
+            <button class="btn" onclick="toggleActiveTime()" id="activeTimeBtn">▶️ START ACTIVE TIME</button>
+            <button class="btn" onclick="endPoint()">🏁 END POINT</button>
+            <button class="btn" onclick="showHowTo()">❓ HOW TO</button>
+        </div>
+        <div id="lineupStatsContainer"></div>
+    </div>
+
+    <script>
+        const localKey = "frisbeeData";
+
+        const state = {
+            games: [],
+            teams: {},
+        };
+        let currentGame = null;
+        let editingTeam = null;
+        let currentGameId = null;
+        const lineupMap = {}; // { teamName: [ {number, name} ] }
+
+        let activePoint = {
+            possessionTeam: null,
+            statEvents: [],
+            lineup: {}, // { team: [player] }
+            statsPerPlayer: {},
+            activeTimeStart: null,
+            activeTimeSeconds: 0
+        };
+
+        // Load from localStorage
+        function loadData() {
+            const data = localStorage.getItem(localKey);
+            if (data) {
+                const parsed = JSON.parse(data);
+                state.games = parsed.games || [];
+                state.teams = parsed.teams || {};
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem(localKey, JSON.stringify(state));
+        }
+
+        function hideAll() {
+            document.querySelectorAll(".hidden").forEach(el => el.style.display = "none");
+        }
+
+        // function hideAll() {
+        //     document.querySelectorAll(".hidden").forEach(el => el.style.display = "none");
+        //     document.getElementById("gamesPage").style.display = "none";
+        //     document.getElementById("newGamePage").style.display = "none";
+        //     document.getElementById("gamePage").style.display = "none";
+        // }
+
+        function showGames() {
+            hideAll();
+            const list = document.getElementById("gamesList");
+            list.innerHTML = "";
+            const sortedGames = [...state.games].sort((a, b) => b.date - a.date);
+            sortedGames.forEach(game => {
+                const li = document.createElement("li");
+                li.textContent = `${game.name} (${new Date(game.date).toLocaleString()})`;
+                li.onclick = () => loadGame(game.id);
+                list.appendChild(li);
+            });
+            document.getElementById("gamesPage").style.display = "block";
+        }
+
+        function showNewGame() {
+            hideAll();
+            document.getElementById("newGamePage").style.display = "block";
+        }
+
+        function createGame() {
+            const name = document.getElementById("gameName").value.trim();
+            const teamA = document.getElementById("teamA").value.trim();
+            const teamB = document.getElementById("teamB").value.trim();
+            if (!name || !teamA || !teamB) return alert("Fill all fields!");
+
+            const id = Date.now();
+            const newGame = { id, name, date: Date.now(), teamA, teamB, stats: [] };
+            state.games.push(newGame);
+            state.teams[teamA] = state.teams[teamA] || [];
+            state.teams[teamB] = state.teams[teamB] || [];
+            saveData();
+            loadGame(id);
+        }
+
+        function loadGame(gameId) {
+            hideAll();
+            const game = state.games.find(g => g.id === gameId);
+            if (!game) return alert("Game not found");
+
+            currentGame = game; // ✅ This was missing
+            document.getElementById("gameTitle").textContent = game.name;
+            document.getElementById("gameDetails").textContent = `Teams: ${game.teamA} vs ${game.teamB}`;
+            document.getElementById("gamePage").style.display = "block";
+        }
+
+        function downloadData() {
+            const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "frisbee_stats.json";
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function editRoster(team) {
+            hideAll();
+            editingTeam = team;
+            document.getElementById("editTeamName").textContent = team;
+            const roster = state.teams[team] || [];
+            const table = document.getElementById("rosterTable");
+            table.innerHTML = "<tr><th>#</th><th>Name</th><th>Called Up</th></tr>";
+            roster.forEach(player => {
+                const row = table.insertRow();
+                row.innerHTML = `
+                    <td><input value="${player.number}" /></td>
+                    <td><input value="${player.name}" /></td>
+                    <td><input type="checkbox" ${player.calledUp ? "checked" : ""} /></td>
+                    `;
+            });
+            document.getElementById("rosterEditPage").style.display = "block";
+        }
+
+        function addPlayerRow() {
+            const table = document.getElementById("rosterTable");
+            const row = table.insertRow();
+            row.innerHTML = `
+                    <td><input /></td>
+                    <td><input /></td>
+                    <td><input type="checkbox" checked /></td>
+                `;
+        }
+
+        function saveRoster() {
+            const table = document.getElementById("rosterTable");
+            const players = [];
+            for (let i = 1; i < table.rows.length; i++) {
+                const cells = table.rows[i].cells;
+                const number = parseInt(cells[0].firstChild.value);
+                const name = cells[1].firstChild.value.trim();
+                const calledUp = cells[2].firstChild.checked;
+                if (name) players.push({ number, name, calledUp });
+            }
+            state.teams[editingTeam] = players;
+            saveData();
+            alert("Roster saved!");
+            hideAll();
+        }
+
+        function showLineups(gameId) {
+            hideAll();
+            currentGameId = gameId;
+            const game = state.games.find(g => g.id === gameId);
+            if (!game) return;
+
+            const container = document.getElementById("lineupsContainer");
+            container.innerHTML = "";
+
+            [game.teamA, game.teamB].forEach(team => {
+                lineupMap[team] = Array(7).fill(null); // 7 slots
+                const wrapper = document.createElement("div");
+                wrapper.innerHTML = `
+                        <h3>${team}</h3>
+                        <div style="display: flex;">
+                            <ul id="lineup-${team}" style="flex: 1; min-height: 120px; border: 1px solid gray; padding: 8px;"></ul>
+                            <ul id="roster-${team}" style="flex: 1; border: 1px solid gray; padding: 8px;"></ul>
+                        </div>
+                        `;
+                container.appendChild(wrapper);
+
+                const lineupEl = wrapper.querySelector(`#lineup-${team}`);
+                const rosterEl = wrapper.querySelector(`#roster-${team}`);
+                const roster = state.teams[team] || [];
+
+                for (let i = 0; i < 7; i++) {
+                    const li = document.createElement("li");
+                    li.textContent = "[ empty ]";
+                    li.onclick = () => {
+                        if (lineupMap[team][i]) {
+                            roster.push(lineupMap[team][i]);
+                            lineupMap[team][i] = null;
+                            renderLineup(team);
+                        }
+                    };
+                    lineupEl.appendChild(li);
+                }
+
+                roster.forEach(player => {
+                    const li = document.createElement("li");
+                    li.textContent = `#${player.number} ${player.name}`;
+                    li.onclick = () => {
+                        const slot = lineupMap[team].findIndex(x => x === null);
+                        if (slot >= 0) {
+                            lineupMap[team][slot] = player;
+                            state.teams[team] = roster.filter(p => p !== player);
+                            renderLineup(team);
+                        }
+                    };
+                    rosterEl.appendChild(li);
+                });
+            });
+
+            document.getElementById("lineupPage").style.display = "block";
+        }
+
+        function renderLineup(team) {
+            const lineupEl = document.getElementById(`lineup-${team}`);
+            const rosterEl = document.getElementById(`roster-${team}`);
+            const roster = state.teams[team];
+
+            // Clear
+            lineupEl.innerHTML = "";
+            rosterEl.innerHTML = "";
+
+            lineupMap[team].forEach((p, i) => {
+                const li = document.createElement("li");
+                li.textContent = p ? `#${p.number} ${p.name}` : "[ empty ]";
+                li.onclick = () => {
+                    if (p) {
+                        roster.push(p);
+                        lineupMap[team][i] = null;
+                        renderLineup(team);
+                    }
+                };
+                lineupEl.appendChild(li);
+            });
+
+            roster.forEach(p => {
+                const li = document.createElement("li");
+                li.textContent = `#${p.number} ${p.name}`;
+                li.onclick = () => {
+                    const slot = lineupMap[team].findIndex(x => x === null);
+                    if (slot >= 0) {
+                        lineupMap[team][slot] = p;
+                        state.teams[team] = roster.filter(pl => pl !== p);
+                        renderLineup(team);
+                    }
+                };
+                rosterEl.appendChild(li);
+            });
+        }
+        
+        function startPoint() {
+            if (!currentGame) return alert("No game selected.");
+
+            // Basic check: both lineups filled with at least 1 player
+            const tA = currentGame.teamA;
+            const tB = currentGame.teamB;
+
+            const lineupA = lineupMap[tA]?.filter(p => p !== null) || [];
+            const lineupB = lineupMap[tB]?.filter(p => p !== null) || [];
+
+            if (lineupA.length === 0 || lineupB.length === 0) {
+                return alert("Each team must have at least one player in the lineup.");
+            }
+
+            // Set default lineups for the point
+            activePoint.lineup = {
+                [tA]: lineupA,
+                [tB]: lineupB
+            };
+
+            // You can customize possession logic here
+            activePoint.possessionTeam = tA;
+
+            showPointPage();
+        }
+
+        function showPointPage() {
+            hideAll();
+            if (!currentGame) return;
+
+            const teamA = currentGame.teamA;
+            const teamB = currentGame.teamB;
+
+            // Default: teamA starts on offense (you can customize this logic later)
+            activePoint = {
+                possessionTeam: teamA,
+                statEvents: [],
+                lineup: {
+                    [teamA]: [...(lineupMap[teamA] || [])],
+                    [teamB]: [...(lineupMap[teamB] || [])]
+                },
+                statsPerPlayer: {},
+                activeTimeStart: null,
+                activeTimeSeconds: 0
+            };
+
+            renderPointUI();
+            document.getElementById("pointPage").style.display = "block";
+        }
+
+        function renderPointUI() {
+            const container = document.getElementById("lineupStatsContainer");
+            const scoreText = `${currentGame.teamA} ${currentGame.scoreA || 0} - ${currentGame.scoreB || 0} ${currentGame.teamB}`;
+            document.getElementById("pointScore").textContent = scoreText;
+
+            container.innerHTML = "";
+            [currentGame.teamA, currentGame.teamB].forEach(team => {
+                const isOffense = (team === activePoint.possessionTeam);
+                const heading = document.createElement("h3");
+                heading.textContent = `${team} (${isOffense ? "Offense" : "Defense"})`;
+                container.appendChild(heading);
+
+                const teamDiv = document.createElement("div");
+                activePoint.lineup[team].forEach(player => {
+                    const playerDiv = document.createElement("div");
+                    const key = `${team}-${player.number}`;
+                    if (!activePoint.statsPerPlayer[key]) activePoint.statsPerPlayer[key] = {};
+
+                    const title = document.createElement("strong");
+                    title.textContent = `#${player.number} ${player.name}`;
+                    playerDiv.appendChild(title);
+
+                    const statCodes = isOffense
+                        ? ["T", "P", ".", "H", "K", "S", "A", "M"]
+                        : ["D", "HD", "E", "B", "L", "R", "blame"];
+
+                    statCodes.forEach(code => {
+                        const btn = document.createElement("button");
+                        btn.className = "btn btn-sm";
+                        const count = activePoint.statsPerPlayer[key][code] || 0;
+                        btn.textContent = `${code} (${count})`;
+                        btn.onclick = () => handleStatClick(player, team, code);
+                        playerDiv.appendChild(btn);
+                    });
+
+                    teamDiv.appendChild(playerDiv);
+                });
+                container.appendChild(teamDiv);
+            });
+        }
+
+        function handleStatClick(player, team, statCode) {
+            const key = `${team}-${player.number}`;
+            activePoint.statsPerPlayer[key] ||= {};
+            activePoint.statsPerPlayer[key][statCode] = (activePoint.statsPerPlayer[key][statCode] || 0) + 1;
+            activePoint.statEvents.push({ player, team, statCode, time: Date.now() });
+
+            if (["T", "P"].includes(statCode) && team === activePoint.possessionTeam) {
+                // Turnover
+                activePoint.possessionTeam = getOtherTeam(team);
+            } else if (statCode === "D" && team !== activePoint.possessionTeam) {
+                // D block = turnover
+                activePoint.possessionTeam = team;
+            } else if (["M", "blame", "DK", "TheyScored"].includes(statCode)) {
+                // Point ends
+                endPoint(statCode);
+                return;
+            }
+
+            renderPointUI();
+        }
+
+        function getOtherTeam(team) {
+            return (team === currentGame.teamA) ? currentGame.teamB : currentGame.teamA;
+        }
+
+        function toggleActiveTime() {
+            const now = Date.now();
+            const btn = document.getElementById("activeTimeBtn");
+            if (!activePoint.activeTimeStart) {
+                activePoint.activeTimeStart = now;
+                btn.textContent = "⏸️ STOP ACTIVE TIME";
+            } else {
+                const elapsed = Math.floor((now - activePoint.activeTimeStart) / 1000);
+                activePoint.activeTimeSeconds += elapsed;
+                activePoint.activeTimeStart = null;
+                btn.textContent = "▶️ START ACTIVE TIME";
+            }
+        }
+
+        function undoLastEvent() {
+            const last = activePoint.statEvents.pop();
+            if (!last) return;
+
+            const key = `${last.team}-${last.player.number}`;
+            const stats = activePoint.statsPerPlayer[key];
+            stats[last.statCode] -= 1;
+            if (stats[last.statCode] === 0) delete stats[last.statCode];
+
+            renderPointUI();
+        }
+
+        function endPoint(endingCode = null) {
+            if (activePoint.activeTimeStart) toggleActiveTime(); // stop active time if running
+
+            // Save stats per player
+            const gameStats = currentGame.playerStats ||= {};
+            for (const key in activePoint.statsPerPlayer) {
+                const [team, number] = key.split("-");
+                gameStats[key] ||= {};
+                const stats = activePoint.statsPerPlayer[key];
+
+                for (const stat in stats) {
+                    gameStats[key][stat] = (gameStats[key][stat] || 0) + stats[stat];
+                }
+
+                // Add active time
+                gameStats[key]["activeTime"] = (gameStats[key]["activeTime"] || 0) + activePoint.activeTimeSeconds;
+            }
+
+            // Update score
+            if (endingCode && ["M", "DK", "TheyScored"].includes(endingCode)) {
+                if (activePoint.possessionTeam === currentGame.teamA) {
+                    currentGame.scoreA = (currentGame.scoreA || 0) + 1;
+                } else {
+                    currentGame.scoreB = (currentGame.scoreB || 0) + 1;
+                }
+            }
+
+            // Save game story
+            currentGame.story ||= [];
+            const storyText = activePoint.statEvents.map(e => `#${e.player.number} ${e.statCode}`).join(" ➡ ");
+            const finalScore = `${currentGame.teamA} ${currentGame.scoreA || 0} - ${currentGame.scoreB || 0} ${currentGame.teamB}`;
+            currentGame.story.push(`Point: ${storyText}\nScore: ${finalScore}`);
+
+            saveData();
+            alert("Point saved!");
+            showLineups(currentGame.id);
+        }
+
+        function downloadGameStory() {
+            if (!currentGame) return;
+            const story = currentGame.story || [];
+            const stats = currentGame.playerStats || {};
+
+            const lines = [];
+            lines.push(`Game: ${currentGame.name}`);
+            lines.push(`Teams: ${currentGame.teamA} vs ${currentGame.teamB}`);
+            lines.push(...story);
+            lines.push("\n--- Player Stats ---");
+
+            for (const key in stats) {
+                const statLine = Object.entries(stats[key])
+                    .map(([k, v]) => `${k}:${v}`)
+                    .join(", ");
+                lines.push(`${key}: ${statLine}`);
+            }
+
+            const blob = new Blob([lines.join("\n")], { type: "text/plain" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `game_story_${currentGame.id}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Init
+        loadData();
+    </script>
+
+
+</body>
+<!-- JS -->
+<script>
+    fetch("assets/components/header.html")
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('header-container').innerHTML = data;
+        })
+        .catch(error => console.error("Error loading header:", error));
+    fetch('assets/components/footer.html')
+        .then(response => response.text())
+        .then(html => {
+            document.body.insertAdjacentHTML("beforeend", html);
+        });
+</script>
+<!-- Dynamic Navbar -->
+<script src="assets/js/navbar.js" defer></script>
+<script src="assets/js/sidebar.js" defer></script>
+<!-- JS Dark Theme -->
+<script src="assets/js/theme.js" defer></script>
+
+</html>
