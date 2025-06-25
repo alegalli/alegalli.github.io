@@ -37,6 +37,25 @@
             margin: 4px;
             padding: 6px 12px;
         }
+
+        .btn-yellow { border: 2px solid gold !important; }
+        .btn-orange { border: 2px solid darkorange !important; }
+        .btn-red { border: 2px solid red !important; }
+        .btn-green { border: 2px solid green !important; }
+        .btn-blue { border: 2px solid dodgerblue !important; }
+        .btn-violet { border: 2px solid purple !important; }
+
+        .stat-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: 4px;
+        }
+        .stat-grid .btn {
+            min-width: 60px;
+            border: 2px solid;
+        }
+
     </style>
 </head>
 
@@ -82,6 +101,9 @@
     <!-- Roster Edit Page -->
     <div id="rosterEditPage" class="hidden">
         <h2>Edit Roster: <span id="editTeamName"></span></h2>
+        <button class="btn" onclick="addPlayerRow()">➕ Add Player</button>
+        <button class="btn" onclick="saveRoster()">💾 Save</button>
+        <button class="btn" onclick="hideAll()">🔙 Back</button>
         <table id="rosterTable" border="1" cellpadding="4">
             <tr>
                 <th>#</th>
@@ -89,9 +111,6 @@
                 <th>Called Up</th>
             </tr>
         </table>
-        <button class="btn" onclick="addPlayerRow()">➕ Add Player</button>
-        <button class="btn" onclick="saveRoster()">💾 Save</button>
-        <button class="btn" onclick="hideAll()">🔙 Back</button>
     </div>
 
     <!-- Lineup Page -->
@@ -127,6 +146,7 @@
         let currentGame = null;
         let editingTeam = null;
         let currentGameId = null;
+        let currentGameRosters = {}
         const lineupMap = {}; // { teamName: [ {number, name} ] }
 
         let activePoint = {
@@ -193,6 +213,7 @@
             state.games.push(newGame);
             state.teams[teamA] = state.teams[teamA] || [];
             state.teams[teamB] = state.teams[teamB] || [];
+            currentGameRosters = state.teams;
             saveData();
             loadGame(id);
         }
@@ -202,8 +223,27 @@
             const game = state.games.find(g => g.id === gameId);
             if (!game) return alert("Game not found");
 
-            currentGame = game; // ✅ This was missing
+            currentGame = game; 
             document.getElementById("gameTitle").textContent = game.name;
+
+            // TODO: DUBBIO
+            // Show roster
+            const rosterList = [...(state.teams[currentGame.teamA] || []), ...(state.teams[currentGame.teamB] || [])]
+            .map(p => `#${p.number} ${p.name}`)
+            .join("<br>");
+            document.getElementById("gameDetails").innerHTML += `<br><br><strong>Roster:</strong><br>${rosterList}`;
+
+            // Show score list
+            const scoreLog = (currentGame.story || [])
+            .filter(line => line.startsWith("Score:") || line.includes("Point:"))
+            .map((line, i) => `${i + 1}. ${line.replace("Score: ", "")}`)
+            .join("<br>");
+            document.getElementById("gameDetails").innerHTML += `<br><br><strong>Scorers:</strong><br>${scoreLog}`;
+
+            // Show game status
+            const totalPoints = currentGame.story?.length || 0;
+            document.getElementById("gameDetails").innerHTML += `<br><br><strong>Status:</strong> ${totalPoints >= 15 ? "Ended" : "In progress"}`;
+
             document.getElementById("gameDetails").textContent = `Teams: ${game.teamA} vs ${game.teamB}`;
             document.getElementById("gamePage").style.display = "block";
         }
@@ -219,7 +259,7 @@
         }
 
         function editRoster(team) {
-            hideAll();
+            document.getElementById("rosterEditPage").style.display = "block";
             editingTeam = team;
             document.getElementById("editTeamName").textContent = team;
             const roster = state.teams[team] || [];
@@ -259,7 +299,7 @@
             state.teams[editingTeam] = players;
             saveData();
             alert("Roster saved!");
-            hideAll();
+            loadGame(currentGame.id);
         }
 
         function showLineups(gameId) {
@@ -276,6 +316,7 @@
                 const wrapper = document.createElement("div");
                 wrapper.innerHTML = `
                         <h3>${team}</h3>
+                        <button class="btn" onclick="clearLineup('${team}')">🧹 CLEAR LINEUP</button>
                         <div style="display: flex;">
                             <ul id="lineup-${team}" style="flex: 1; min-height: 120px; border: 1px solid gray; padding: 8px;"></ul>
                             <ul id="roster-${team}" style="flex: 1; border: 1px solid gray; padding: 8px;"></ul>
@@ -317,6 +358,14 @@
 
             document.getElementById("lineupPage").style.display = "block";
         }
+
+        function clearLineup(team) {
+            const playersToReturn = lineupMap[team].filter(p => p !== null);
+            state.teams[team].push(...playersToReturn);
+            lineupMap[team] = Array(7).fill(null);
+            renderLineup(team);
+        }
+
 
         function renderLineup(team) {
             const lineupEl = document.getElementById(`lineup-${team}`);
@@ -425,26 +474,65 @@
 
                     const title = document.createElement("strong");
                     title.textContent = `#${player.number} ${player.name}`;
-                    playerDiv.appendChild(title);
+                    playerDiv.appendChild(title); // TODO: spostare questo per mettere i bottoni allineati
 
                     const statCodes = isOffense
                         ? ["T", "P", ".", "H", "K", "S", "A", "M"]
                         : ["D", "HD", "E", "B", "L", "R", "blame"];
 
+                    const statGrid = document.createElement("div");
+                    statGrid.className = "stat-grid";
+
                     statCodes.forEach(code => {
                         const btn = document.createElement("button");
-                        btn.className = "btn btn-sm";
+                        btn.className = "btn btn-sm " + getStatColor(code);
                         const count = activePoint.statsPerPlayer[key][code] || 0;
                         btn.textContent = `${code} (${count})`;
                         btn.onclick = () => handleStatClick(player, team, code);
-                        playerDiv.appendChild(btn);
+                        statGrid.appendChild(btn);
                     });
+
+                    playerDiv.appendChild(statGrid);
 
                     teamDiv.appendChild(playerDiv);
                 });
                 container.appendChild(teamDiv);
+
+                const teamButtons = document.createElement("div");
+                teamButtons.className = "stat-grid";
+                
+                const teamStatCodes = isOffense ? ["Don't Know Error", "Don't Know Score", "Pass (attempted)"] : ["Unforced Block", "They Scored"];
+                teamStatCodes.forEach(label => {
+                const btn = document.createElement("button");
+                btn.className = "btn btn-sm " + getTeamStatColor(label);
+                btn.textContent = label;
+                btn.onclick = () => handleTeamEvent(team, label);
+                teamButtons.appendChild(btn);
+                });
+
+                container.appendChild(teamButtons);
             });
         }
+
+        function getStatColor(code) {
+            if ([".", "H", "K", "S"].includes(code)) return "btn-yellow";
+            if (["A", "M"].includes(code)) return "btn-orange";
+            if (["T", "P"].includes(code)) return "btn-red";
+            if (["D", "HD"].includes(code)) return "btn-green";
+            if (["E", "B", "L", "R"].includes(code)) return "btn-blue";
+            if (["blame"].includes(code)) return "btn-violet";
+            return "";
+        }
+
+        function getTeamStatColor(label) {
+            if (label === "Don't Know Error") return "btn-red";
+            if (label === "Don't Know Score") return "btn-orange";
+            if (label === "Pass (attempted)") return "btn-yellow";
+            if (label === "Unforced Block") return "btn-green";
+            if (label === "They Scored") return "btn-violet";
+            return "";
+        }
+
 
         function handleStatClick(player, team, statCode) {
             const key = `${team}-${player.number}`;
@@ -530,10 +618,22 @@
             const finalScore = `${currentGame.teamA} ${currentGame.scoreA || 0} - ${currentGame.scoreB || 0} ${currentGame.teamB}`;
             currentGame.story.push(`Point: ${storyText}\nScore: ${finalScore}`);
 
+            // Add lineup players back to roster
+            for (const team of [currentGame.teamA, currentGame.teamB]) {
+                const teamRoster = state.teams[team] ||= [];
+                const pointLineup = activePoint.lineup[team] || [];
+                pointLineup.forEach(player => {
+                if (!teamRoster.some(p => p.number === player.number && p.name === player.name)) {
+                    teamRoster.push(player);
+                }
+                });
+            }
+
             saveData();
             alert("Point saved!");
             showLineups(currentGame.id);
         }
+
 
         function downloadGameStory() {
             if (!currentGame) return;
