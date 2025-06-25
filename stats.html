@@ -26,7 +26,13 @@
     <style>
         body {
             font-family: sans-serif;
-            margin: 20px;
+            margin: 5px;
+            padding: 10px 0 0 0;
+        }
+
+        h1 {
+            font-size: x-large;
+            font-weight: 800;
         }
 
         .hidden {
@@ -67,7 +73,12 @@
     <div id="menu">
         <button class="btn" onclick="showGames()">📋 View Games</button>
         <button class="btn" onclick="showNewGame()">🆕 Start New Game</button>
+        <button class="btn" onclick="goToLastGame()">🕓 Last Game</button>
+        <button class="btn" onclick="showTeams()">👥 View Teams</button>
+        <button class="btn" onclick="showAddTeam()">➕ Add New Team</button>
         <button class="btn" onclick="downloadData()">⬇️ Download Data</button>
+        <input type="file" id="uploadDataFile" accept=".json" style="display: none" onchange="uploadData(event)" />
+        <button class="btn" onclick="document.getElementById('uploadDataFile').click()">📤 Upload Data</button>
     </div>
 
     <!-- Games List -->
@@ -86,6 +97,30 @@
         <button class="btn" onclick="createGame()">✅ Confirm</button>
         <button class="btn" onclick="hideAll()">🔙 Back</button>
     </div>
+
+    <!-- Team List Page -->
+    <div id="teamListPage" class="hidden">
+    <h2>Saved Teams</h2>
+    <ul id="teamList"></ul>
+    <button class="btn" onclick="downloadAllTeams()">⬇️ Download All Teams</button>
+    <button class="btn" onclick="hideAll()">🔙 Back</button>
+    </div>
+
+    <!-- Add New Team Page -->
+    <div id="addTeamPage" class="hidden">
+        <h2>Create New Team</h2>
+        <label>Team Name: <input type="text" id="newTeamName" /></label><br><br>
+        <button class="btn" onclick="addNewTeamPlayerRow()">➕ Add Player</button>
+        <button class="btn" onclick="saveNewTeam()">💾 Save Team</button>
+        <button class="btn" onclick="hideAll()">🔙 Back</button>
+        <table id="newTeamRosterTable" border="1" cellpadding="4">
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+            </tr>
+        </table>
+    </div>
+
 
     <!-- Placeholder: Game Page -->
     <div id="gamePage" class="hidden">
@@ -136,6 +171,16 @@
         <div id="lineupStatsContainer"></div>
     </div>
 
+    <div id="teamPage" class="hidden">
+        <h2 id="teamPageTitle"></h2>
+        <h4>Roster</h4>
+        <ul id="teamRosterList"></ul>
+        <h4>Games Played</h4>
+        <ul id="teamGamesList"></ul>
+        <button class="btn" onclick="downloadCurrentTeam()">⬇️ Download This Team</button>
+        <button class="btn" onclick="hideAll()">🔙 Back</button>
+    </div>
+
     <script>
         const localKey = "frisbeeData";
 
@@ -183,6 +228,7 @@
         //     document.getElementById("gamePage").style.display = "none";
         // }
 
+        // GAME
         function showGames() {
             hideAll();
             const list = document.getElementById("gamesList");
@@ -223,8 +269,16 @@
             const game = state.games.find(g => g.id === gameId);
             if (!game) return alert("Game not found");
 
-            currentGame = game; 
+            currentGame = game;
+            localStorage.setItem("lastGameId", gameId);
             document.getElementById("gameTitle").textContent = game.name;
+
+            document.getElementById("gameDetails").innerHTML += `Teams: ${linkTeamName(game.teamA)} vs ${linkTeamName(game.teamB)}`;
+
+            // Show game status
+            const totalPoints = currentGame.story?.length || 0;
+            document.getElementById("gameDetails").innerHTML += `<br><br><strong>Status:</strong> ${totalPoints >= 15 ? "Ended" : "In progress"}`;
+
 
             // TODO: DUBBIO
             // Show roster
@@ -240,24 +294,15 @@
             .join("<br>");
             document.getElementById("gameDetails").innerHTML += `<br><br><strong>Scorers:</strong><br>${scoreLog}`;
 
-            // Show game status
-            const totalPoints = currentGame.story?.length || 0;
-            document.getElementById("gameDetails").innerHTML += `<br><br><strong>Status:</strong> ${totalPoints >= 15 ? "Ended" : "In progress"}`;
-
-            document.getElementById("gameDetails").textContent = `Teams: ${game.teamA} vs ${game.teamB}`;
             document.getElementById("gamePage").style.display = "block";
         }
 
-        function downloadData() {
-            const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "frisbee_stats.json";
-            a.click();
-            URL.revokeObjectURL(url);
+        function linkTeamName(teamName) {
+            return `<a onclick="showTeamPage()${teamName}">${teamName}</a>`;
         }
 
+
+        // TODO: add a variable if you create a roster for a game or for a team
         function editRoster(team) {
             document.getElementById("rosterEditPage").style.display = "block";
             editingTeam = team;
@@ -284,6 +329,7 @@
                     <td><input /></td>
                     <td><input type="checkbox" checked /></td>
                 `;
+            table.scrollIntoView();
         }
 
         function saveRoster() {
@@ -302,6 +348,7 @@
             loadGame(currentGame.id);
         }
 
+        // LINEUP
         function showLineups(gameId) {
             hideAll();
             currentGameId = gameId;
@@ -404,6 +451,7 @@
             });
         }
         
+        // POINT
         function startPoint() {
             if (!currentGame) return alert("No game selected.");
 
@@ -634,6 +682,126 @@
             showLineups(currentGame.id);
         }
 
+        // LAST GAME
+        function goToLastGame() {
+            const allGames = state.games;
+            if (allGames.length === 0) {
+                showNewGame();
+                return;
+            }
+
+            const lastId = localStorage.getItem("lastGameId");
+            const lastGame = allGames.find(g => g.id.toString() === lastId);
+
+            if (lastGame) {
+                loadGame(lastGame.id);
+            } else {
+                // Fallback to most recent game
+                const latest = allGames.sort((a, b) => b.date - a.date)[0];
+                loadGame(latest.id);
+            }
+        }
+
+        // TEAM
+        function showTeams() {
+            hideAll();
+            const list = document.getElementById("teamList");
+            list.innerHTML = "";
+
+            const teamNames = Object.keys(state.teams).sort();
+            if (teamNames.length === 0) {
+                list.innerHTML = "<li>No teams saved yet.</li>";
+            } else {
+                teamNames.forEach(teamName => {
+                const li = document.createElement("li");
+                li.textContent = teamName;
+                li.onclick = () => showTeamPage(teamName); // calls the team detail view
+                list.appendChild(li);
+                });
+            }
+
+            document.getElementById("teamListPage").style.display = "block";
+        }
+
+        function showTeamPage(teamName) {
+            hideAll();
+            document.getElementById("teamPageTitle").textContent = teamName;
+
+            const roster = state.teams[teamName] || [];
+            const teamRosterList = document.getElementById("teamRosterList");
+            teamRosterList.innerHTML = "";
+            roster.forEach(p => {
+                const li = document.createElement("li");
+                li.textContent = `#${p.number} ${p.name} (${p.calledUp ? "✓" : "✗"})`;
+                teamRosterList.appendChild(li);
+            });
+
+            const teamGames = state.games.filter(g => g.teamA === teamName || g.teamB === teamName);
+            const teamGamesList = document.getElementById("teamGamesList");
+            teamGamesList.innerHTML = "";
+            teamGames.forEach(g => {
+                const li = document.createElement("li");
+                li.textContent = `${g.name} (${new Date(g.date).toLocaleDateString()})`;
+                li.onclick = () => loadGame(g.id);
+                teamGamesList.appendChild(li);
+            });
+
+            currentTeam = teamName;
+            document.getElementById("teamPage").style.display = "block";
+        }
+
+        function showAddTeam() {
+            hideAll();
+            document.getElementById("newTeamName").value = "";
+            const table = document.getElementById("newTeamRosterTable");
+            table.innerHTML = "<tr><th>#</th><th>Name</th></tr>";
+            document.getElementById("addTeamPage").style.display = "block";
+        }
+
+        function addNewTeamPlayerRow() {
+            const table = document.getElementById("newTeamRosterTable");
+            const row = table.insertRow();
+            row.innerHTML = `
+                <td><input type="number" /></td>
+                <td><input type="text" /></td>
+            `;
+            table.scrollIntoView();
+        }
+
+        function saveNewTeam() {
+            const name = document.getElementById("newTeamName").value.trim();
+            if (!name) return alert("Team name is required.");
+            if (state.teams[name]) return alert("A team with this name already exists.");
+
+            const table = document.getElementById("newTeamRosterTable");
+            const roster = [];
+            for (let i = 1; i < table.rows.length; i++) {
+                const number = parseInt(table.rows[i].cells[0].firstChild.value);
+                const playerName = table.rows[i].cells[1].firstChild.value.trim();
+                if (playerName) {
+                    roster.push({ number, name: playerName });
+                }
+            }
+
+            if (roster.length === 0) return alert("Add at least one player.");
+
+            state.teams[name] = roster;
+            saveData();
+            alert("Team saved!");
+            showTeams();
+        }
+
+
+        // DOWNLOADS
+        function downloadData() {
+            const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "frisbee_stats.json";
+            a.click();
+            URL.revokeObjectURL(url);
+        }
 
         function downloadGameStory() {
             if (!currentGame) return;
@@ -662,6 +830,94 @@
             URL.revokeObjectURL(url);
         }
 
+        // function downloadAllData() {
+        //     const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+        //     triggerDownload(blob, "frisbee_all_data.json");
+        // }
+
+        // function downloadAllGames() {
+        //     const blob = new Blob([JSON.stringify(state.games, null, 2)], { type: "application/json" });
+        //     triggerDownload(blob, "frisbee_games.json");
+        // }
+
+        // function downloadCurrentGame() {
+        //     if (!currentGame) return;
+        //     const blob = new Blob([JSON.stringify(currentGame, null, 2)], { type: "application/json" });
+        //     triggerDownload(blob, `game_${currentGame.name.replace(/\s+/g, "_")}.json`);
+        // }
+
+        function downloadAllTeams() {
+            const blob = new Blob([JSON.stringify(state.teams, null, 2)], { type: "application/json" });
+            triggerDownload(blob, "frisbee_teams.json");
+        }
+
+        function downloadCurrentTeam() {
+            if (!currentTeam) return;
+            const roster = state.teams[currentTeam] || [];
+            const games = state.games.filter(g => g.teamA === currentTeam || g.teamB === currentTeam);
+            const blob = new Blob([JSON.stringify({ teamName: currentTeam, roster, games }, null, 2)], {
+                type: "application/json",
+            });
+            triggerDownload(blob, `team_${currentTeam.replace(/\s+/g, "_")}.json`);
+        }
+
+        function triggerDownload(blob, filename) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // UPLOAD DATA
+        function uploadData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    if (!imported.teams || !imported.games) {
+                        alert("Invalid file format");
+                        return;
+                    }
+
+                    // Merge teams
+                    for (const [teamName, roster] of Object.entries(imported.teams)) {
+                        if (!state.teams[teamName]) {
+                            state.teams[teamName] = roster;
+                        } else {
+                            // Add only missing players (based on number + name)
+                            const existing = state.teams[teamName];
+                            roster.forEach(player => {
+                                const duplicate = existing.find(p => p.number === player.number && p.name === player.name);
+                                if (!duplicate) existing.push(player);
+                            });
+                        }
+                    }
+
+                    // Merge games (by id)
+                    const existingGameIds = new Set(state.games.map(g => g.id));
+                    imported.games.forEach(game => {
+                        if (!existingGameIds.has(game.id)) {
+                            state.games.push(game);
+                        }
+                    });
+
+                    saveData();
+                    alert("Data imported successfully!");
+                } catch (err) {
+                    console.error(err);
+                    alert("Failed to import data.");
+                }
+            };
+
+            reader.readAsText(file);
+}
+
+
         // Init
         loadData();
     </script>
@@ -670,12 +926,12 @@
 </body>
 <!-- JS -->
 <script>
-    fetch("assets/components/header.html")
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('header-container').innerHTML = data;
-        })
-        .catch(error => console.error("Error loading header:", error));
+    // fetch("assets/components/header.html")
+    //     .then(response => response.text())
+    //     .then(data => {
+    //         document.getElementById('header-container').innerHTML = data;
+    //     })
+    //     .catch(error => console.error("Error loading header:", error));
     fetch('assets/components/footer.html')
         .then(response => response.text())
         .then(html => {
