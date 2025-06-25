@@ -127,9 +127,9 @@
         <h2 id="gameTitle"></h2>
         <p id="gameDetails"></p>
         <button class="btn" onclick="hideAll()">🔙 Back</button>
-        <button class="btn" onclick="editRoster(currentGame.teamA)">✏️ Edit Team A Roster</button>
-        <button class="btn" onclick="editRoster(currentGame.teamB)">✏️ Edit Team B Roster</button>
-        <button class="btn" onclick="showLineups(currentGame.id)">📋 Set Lineups</button>
+        <button class="btn" id="editRosterTeamA">✏️ Edit Team A Roster</button>
+        <button class="btn" id="editRosterTeamB">✏️ Edit Team B Roster</button>
+        <button class="btn" id="showLineups" onclick="showLineups(currentGame.id)">📋 Set Lineups</button>
         <button class="btn" onclick="downloadGameStory()">📖 Download Game Story</button>
     </div>
 
@@ -293,6 +293,11 @@
             .map((line, i) => `${i + 1}. ${line.replace("Score: ", "")}`)
             .join("<br>");
             document.getElementById("gameDetails").innerHTML += `<br><br><strong>Scorers:</strong><br>${scoreLog}`;
+            
+            document.getElementById("editRosterTeamA").onclick = () => editRoster(currentGame.teamA);
+            document.getElementById("editRosterTeamB").onclick = () => editRoster(currentGame.teamB);
+            document.getElementById("showLineups").onclick = () => editRoster(currentGame.id);
+
 
             document.getElementById("gamePage").style.display = "block";
         }
@@ -765,7 +770,7 @@
                 <td><input type="number" /></td>
                 <td><input type="text" /></td>
             `;
-            table.scrollIntoView();
+            // table.scrollIntoView();
         }
 
         function saveNewTeam() {
