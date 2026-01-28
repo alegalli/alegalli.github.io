@@ -282,7 +282,11 @@
 
             // TODO: DUBBIO
             // Show roster
-            const rosterList = [...(state.teams[currentGame.teamA] || []), ...(state.teams[currentGame.teamB] || [])]
+            const rosterList = [currentGame.teamA + ":<br>"] +
+            [...(state.teams[currentGame.teamA] || [])]
+            .map(p => `#${p.number} ${p.name}`)
+            .join("<br>") + ["<br>"+currentGame.teamB + ":<br>"] + 
+            [...(state.teams[currentGame.teamB] || [])]
             .map(p => `#${p.number} ${p.name}`)
             .join("<br>");
             document.getElementById("gameDetails").innerHTML += `<br><br><strong>Roster:</strong><br>${rosterList}`;
